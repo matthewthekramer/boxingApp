@@ -6,6 +6,7 @@ import {
   Text,
   Button
 } from 'react-native';
+import Timer from './Timer';
 import {
   decrementSec,
   initTimer,
@@ -31,12 +32,7 @@ class TimerView extends Component {
   render() {
     return (
       <View>
-        <Text>
-        {this.props.minutes}
-        </Text>
-        <Text>
-        {this.props.seconds}
-        </Text>
+        <Timer />
         <Button onPress={this.onStartPress.bind(this)} title='start'>
           START
         </Button>

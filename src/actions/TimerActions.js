@@ -5,7 +5,8 @@ import {
   PAUSE_TIMER,
 } from './types';
 
-
+//if called multiple times without a pause, will speed up countdown
+//should disable usage while button is running
 export const startTimer = () => {
   return (dispatch) => {
     const intervalID = setInterval(() => dispatch({ type: DECREMENT_SEC }), 1000);
