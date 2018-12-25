@@ -1,12 +1,16 @@
 import {
   DECREMENT_SEC,
   INIT_TIMER,
+  PAUSE_TIMER,
+  PLAY_TIMER,
 } from '../actions/types';
 
 const INITIAL_STATE = {
   seconds: 0,
   minutes: 0,
   done: false,
+  paused: false,
+  intervalID: 0,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +30,16 @@ export default (state = INITIAL_STATE, action) => {
         seconds: action.payload.seconds,
         minutes: action.payload.minutes,
       };
+    //sets interval id and unpauses timer
+    case PLAY_TIMER:
+      return {
+        ...state,
+        intervalID: action.payload.intervalID,
+        paused: false,
+      };
+    case PAUSE_TIMER:
+      clearInterval(state.intervalID);
+      return { ...state, paused: true };
     default:
       return state;
   }

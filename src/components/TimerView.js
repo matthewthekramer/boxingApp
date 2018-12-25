@@ -1,11 +1,10 @@
 
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import { decrementSec, initTimer } from '../actions';
 
-class Timer extends Component {
+class TimerView extends Component {
   constructor(props) {
     super(props);
     this.props.initTimer({ minutes: 1, seconds: 10 });
@@ -38,4 +37,4 @@ const mapStateToProps = state => {
   return { minutes, seconds };
 };
 
-export default connect(mapStateToProps, { decrementSec, initTimer })(Timer);
+export default connect(mapStateToProps, { decrementSec, initTimer })(TimerView);

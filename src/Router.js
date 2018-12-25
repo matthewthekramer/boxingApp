@@ -1,6 +1,6 @@
 import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import Timer from './components/Timer';
+import TimerView from './components/TimerView';
 
 const RouterComponent = () => {
   return (
@@ -10,7 +10,7 @@ const RouterComponent = () => {
           <Scene
             rightTitle="Add"
             key="employeeList"
-            component={Timer}
+            component={TimerView}
             title="Employees"
             initial
           />
