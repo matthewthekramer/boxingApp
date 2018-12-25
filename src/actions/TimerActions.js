@@ -8,7 +8,7 @@ import {
 
 export const startTimer = () => {
   return (dispatch) => {
-    const intervalID = setInterval(dispatch({ type: DECREMENT_SEC }), 1000);
+    const intervalID = setInterval(() => dispatch({ type: DECREMENT_SEC }), 1000);
     dispatch({
       type: PLAY_TIMER,
       payload: {
