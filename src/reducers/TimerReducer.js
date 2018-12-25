@@ -34,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
     case PLAY_TIMER:
       return {
         ...state,
-        intervalID: action.payload.intervalID,
+        intervalID: action.payload.id,
         paused: false,
       };
     case PAUSE_TIMER:

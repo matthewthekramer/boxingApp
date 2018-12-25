@@ -21,6 +21,7 @@ export const startTimer = () => {
 export const pauseTimer = () => {
   return {
     type: PAUSE_TIMER,
+    payload: {},
   };
 }
 
