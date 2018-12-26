@@ -32,7 +32,7 @@ class TimerView extends Component {
   render() {
     return (
       <View>
-        <Timer />
+        <Timer minutes={this.props.minutes} seconds={this.props.seconds} />
         <Button onPress={this.onStartPress.bind(this)} title='start'>
           START
         </Button>

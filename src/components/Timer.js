@@ -5,25 +5,37 @@ import {
   Text,
 } from 'react-native';
 
+//adds x leading 0s to create num with 'size' digits
+function pad(num, size) {
+    let s = num + '';
+    while (s.length < size) s = '0' + s;
+    return s;
+}
+
 class Timer extends Component {
   render() {
     return (
-      <View>
-        <Text>
-          {this.props.minutes}
-        </Text>
-        <Text>
-          {this.props.seconds}
+      <View style={styles.containerStyle}>
+        <Text style={styles.textStyle}>
+          {pad(this.props.minutes, 2)} : {pad(this.props.seconds, 2)}
         </Text>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => {
-  const { minutes, seconds } = state.timer;
+const styles = {
+  containerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
 
-  return { minutes, seconds };
-};
+  },
+  textStyle: {
+    fontSize: 120,
+    color: '#000',
 
-export default connect((mapStateToProps), {})(Timer);
+  }
+}
+
+
+export default Timer;
