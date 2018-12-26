@@ -7,6 +7,8 @@ import {
   Button
 } from 'react-native';
 import Timer from './Timer';
+import TimerButton from './TimerButton';
+
 import {
   decrementSec,
   initTimer,
@@ -29,24 +31,33 @@ class TimerView extends Component {
   onPausePress() {
     this.props.pauseTimer();
   }
+  renderTimerButton() {
+    if (this.props.paused) {
+      return (
+        <TimerButton start onPress={this.onStartPress.bind(this)}>
+          START
+        </TimerButton>
+      );
+    }
+    return (
+      <TimerButton pause onPress={this.onPausePress.bind(this)}>
+        PAUSE
+      </TimerButton>
+    );
+  }
   render() {
     return (
       <View>
         <Timer minutes={this.props.minutes} seconds={this.props.seconds} />
-        <Button onPress={this.onStartPress.bind(this)} title='start'>
-          START
-        </Button>
-        <Button onPress={this.onPausePress.bind(this)} title='pause'>
-          PAUSE
-        </Button>
+        {this.renderTimerButton()}
       </View>
     );
   }
 }
 const mapStateToProps = state => {
-  const { minutes, seconds } = state.timer;
+  const { minutes, seconds, paused } = state.timer;
 
-  return { minutes, seconds };
+  return { minutes, seconds, paused };
 };
 
 export default connect(mapStateToProps, {

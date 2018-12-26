@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   seconds: 0,
   minutes: 0,
   done: false,
-  paused: false,
+  paused: true,
   intervalID: 0,
 };
 
