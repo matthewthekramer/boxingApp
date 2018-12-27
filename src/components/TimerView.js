@@ -74,7 +74,8 @@ const mapStateToProps = state => {
     curSeconds,
     paused,
     roundTime,
-    restTime
+    restTime,
+    resting,
   } = state.timer;
 
   return {
@@ -83,6 +84,7 @@ const mapStateToProps = state => {
     paused,
     roundTime,
     restTime,
+    resting,
   };
 };
 

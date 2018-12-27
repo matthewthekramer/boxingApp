@@ -8,11 +8,10 @@ const RouterComponent = () => {
       <Scene key="root" hideNavBar>
         <Scene key="main">
           <Scene
-            rightTitle="Add"
-            key="employeeList"
+            key="timer"
             component={TimerView}
-            title="Employees"
             initial
+            showNavigationBar={false}
           />
 
         </Scene>
