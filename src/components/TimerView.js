@@ -55,19 +55,23 @@ class TimerView extends Component {
     //don't display round counter, just display editable rest time
     if (this.props.initialized) {
       return (
-        <View style={styles.restCountainer}>
-          <Text style={styles.restTitle}>
-            REST TIME
-          </Text>
+        <View style={styles.restRoundCountainer}>
+          <View style={styles.restContainer}>
+            <Text style={styles.restTitle}>
+              REST TIME
+            </Text>
+          </View>
         </View>
       );
     }
     return (
       <View style={styles.restRoundContainer}>
-        <Text style={styles.roundText}>
-          ROUND {this.props.roundCount}
-        </Text>
-        <View style={styles.restCountainer}>
+        <View style={styles.roundContainer}>
+          <Text style={styles.roundText}>
+            ROUND {this.props.roundCount}
+          </Text>
+        </View>
+        <View style={styles.restContainer}>
           <Text style={styles.restTitle}>
             REST TIME
           </Text>
@@ -136,14 +140,27 @@ const styles = {
   sectionStyle: {
     position: 'relative',
   },
-  restCountainer: {
-  },
+
   restRoundContainer: {
+    paddingTop: 20,
   },
-  restTitle: {
+  roundContainer: {
+    alignItems: 'center',
   },
   roundText: {
-  }
+    fontSize: 60,
+    color: '#000000',
+    borderBottomWidth: 2,
+    borderColor: '#000000',
+  },
+  restContainer: {
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  restTitle: {
+    fontSize: 40,
+    color: '#000000',
+  },
 };
 
 export default connect(mapStateToProps, {
