@@ -33,7 +33,6 @@ class TimerButton extends Component {
 
 const styles = {
   containerStyle: {
-    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },

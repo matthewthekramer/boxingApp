@@ -37,6 +37,9 @@ class TimerView extends Component {
   onPausePress() {
     this.props.pauseTimer();
   }
+
+  //background color should be grey if paused,
+  //red if resting, yellow if warning, and green if during work
   getContainerStyle() {
     if (this.props.paused) {
       return { ...styles.containerStyle, backgroundColor: '#c1c1c1' };
@@ -46,6 +49,33 @@ class TimerView extends Component {
     }
     return { ...styles.containerStyle, backgroundColor: '#00FF00' };
   }
+  //should render a counter for rounds at all times except when timer hasn't been initialized
+  //should render an editable rest time when timer is paused
+  renderBottomView() {
+    //don't display round counter, just display editable rest time
+    if (this.props.initialized) {
+      return (
+        <View style={styles.restCountainer}>
+          <Text style={styles.restTitle}>
+            REST TIME
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.restRoundContainer}>
+        <Text style={styles.roundText}>
+          ROUND {this.props.roundCount}
+        </Text>
+        <View style={styles.restCountainer}>
+          <Text style={styles.restTitle}>
+            REST TIME
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   renderTimerButton() {
     if (this.props.paused) {
       return (
@@ -64,7 +94,12 @@ class TimerView extends Component {
     return (
       <View style={this.getContainerStyle()}>
         <Timer minutes={this.props.curMinutes} seconds={this.props.curSeconds} />
-        {this.renderTimerButton()}
+        <View style={styles.sectionStyle}>
+          {this.renderTimerButton()}
+        </View>
+        <View style={styles.sectionStyle}>
+          {this.renderBottomView()}
+        </View>
       </View>
     );
   }
@@ -77,6 +112,8 @@ const mapStateToProps = state => {
     roundTime,
     restTime,
     resting,
+    initialized,
+    roundCount,
   } = state.timer;
 
   return {
@@ -86,6 +123,8 @@ const mapStateToProps = state => {
     roundTime,
     restTime,
     resting,
+    initialized,
+    roundCount,
   };
 };
 
@@ -95,7 +134,15 @@ const styles = {
     backgroundColor: '#c1c1c1',
   },
   sectionStyle: {
-    backgroundColor: '#FF0000',
+    position: 'relative',
+  },
+  restCountainer: {
+  },
+  restRoundContainer: {
+  },
+  restTitle: {
+  },
+  roundText: {
   }
 };
 

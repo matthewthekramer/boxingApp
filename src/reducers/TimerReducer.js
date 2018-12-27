@@ -12,7 +12,9 @@ const INITIAL_STATE = {
   paused: true,
   resting: false, //if currently during the rest time
   warning: false, //if small time remaining during work period
-  intervalID: 0,
+  intervalID: 0, //keeps track of interval used to decrement second
+  roundCount: 0, //keeps track of number of work rounds completed
+  initialized: true, //this is true when timer hasn't been started for a given round time
 
   roundTime: {
     minutes: 0,
@@ -28,6 +30,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case DECREMENT_SEC:
       if (state.curSeconds === 0) {
+        //convert a minute into 60 seconds if there are minutes remaining
         if (state.curMinutes !== 0) {
           return { ...state, curSeconds: 60, curMinutes: state.curMinutes - 1 };
         }
@@ -48,6 +51,7 @@ export default (state = INITIAL_STATE, action) => {
           curMinutes: state.restTime.minutes,
           resting: true,
           warning: false,
+          roundCount: state.roundCount + 1,
         };
       //if we should set warning
       } else if (!state.resting && state.curSeconds + (state.curMinutes * 60)) {
@@ -65,14 +69,22 @@ export default (state = INITIAL_STATE, action) => {
         done: false,
         curSeconds: action.payload.seconds,
         curMinutes: action.payload.minutes,
+        initialized: true,
         roundTime: {
           seconds: action.payload.seconds,
           minutes: action.payload.minutes,
         }
       };
+    //also resets the timer
     case SET_REST:
       return {
         ...state,
+        curSeconds: state.roundTime.seconds,
+        curMinutes: state.roundTime.minutes,
+        resting: false,
+        warning: false,
+        roundCount: 0,
+        initialized: true,
         restTime: {
           seconds: action.payload.seconds,
           minutes: action.payload.minutes,
@@ -82,6 +94,7 @@ export default (state = INITIAL_STATE, action) => {
     case PLAY_TIMER:
       return {
         ...state,
+        initialized: false,
         intervalID: action.payload.id,
         paused: false,
       };
