@@ -18,7 +18,8 @@ import {
   decrementSec,
   initTimer,
   startTimer,
-  pauseTimer
+  pauseTimer,
+  setRest,
 } from '../actions';
 
 class TimerView extends Component {
@@ -103,4 +104,5 @@ export default connect(mapStateToProps, {
   initTimer,
   startTimer,
   pauseTimer,
+  setRest,
 })(TimerView);

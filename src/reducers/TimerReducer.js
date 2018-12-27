@@ -3,6 +3,7 @@ import {
   INIT_TIMER,
   PAUSE_TIMER,
   PLAY_TIMER,
+  SET_REST,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -19,7 +20,7 @@ const INITIAL_STATE = {
   },
   restTime: {
     minutes: 0,
-    seconds: 8,
+    seconds: 10,
   },
 };
 
@@ -68,7 +69,15 @@ export default (state = INITIAL_STATE, action) => {
           seconds: action.payload.seconds,
           minutes: action.payload.minutes,
         }
-      };//TODO init rest
+      };
+    case SET_REST:
+      return {
+        ...state,
+        restTime: {
+          seconds: action.payload.seconds,
+          minutes: action.payload.minutes,
+        }
+      };
     //sets interval id and unpauses timer
     case PLAY_TIMER:
       return {

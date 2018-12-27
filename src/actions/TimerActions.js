@@ -3,6 +3,7 @@ import {
   DECREMENT_SEC,
   PLAY_TIMER,
   PAUSE_TIMER,
+  SET_REST,
 } from './types';
 
 //if called multiple times without a pause, will speed up countdown
@@ -24,11 +25,18 @@ export const pauseTimer = () => {
     type: PAUSE_TIMER,
     payload: {},
   };
-}
+};
 
 export const initTimer = ({ seconds, minutes }) => {
   return {
     type: INIT_TIMER,
     payload: { seconds, minutes }
+  };
+};
+
+export const setRest = ({ seconds, minutes }) => {
+  return {
+    type: SET_REST,
+    payload: { seconds, minutes },
   };
 };
