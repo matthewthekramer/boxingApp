@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   resting: false, //if currently during the rest time
   warning: false, //if small time remaining during work period
   intervalID: 0, //keeps track of interval used to decrement second
-  roundCount: 0, //keeps track of number of work rounds completed
+  roundCount: 1, //keeps track of number of work rounds completed
   initialized: true, //this is true when timer hasn't been started for a given round time
 
   roundTime: {
@@ -69,6 +69,7 @@ export default (state = INITIAL_STATE, action) => {
         done: false,
         curSeconds: action.payload.seconds,
         curMinutes: action.payload.minutes,
+        roundCount: 1,
         initialized: true,
         roundTime: {
           seconds: action.payload.seconds,
@@ -83,7 +84,7 @@ export default (state = INITIAL_STATE, action) => {
         curMinutes: state.roundTime.minutes,
         resting: false,
         warning: false,
-        roundCount: 0,
+        roundCount: 1,
         initialized: true,
         restTime: {
           seconds: action.payload.seconds,
