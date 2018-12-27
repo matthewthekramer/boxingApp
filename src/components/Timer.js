@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  TextInput,
 } from 'react-native';
 
 //adds x leading 0s to create num with 'size' digits
@@ -15,9 +16,21 @@ class Timer extends Component {
   render() {
     return (
       <View style={styles.containerStyle}>
+        <TextInput
+          style={styles.textStyle}
+          keyboardType={'number-pad'}
+          value={pad(this.props.minutes)}
+          onChangeText={this.props.minuteUpdate}
+        />
         <Text style={styles.textStyle}>
-          {pad(this.props.minutes, 2)} : {pad(this.props.seconds, 2)}
+          :
         </Text>
+        <TextInput
+          style={styles.textStyle}
+          keyboardType={'number-pad'}
+          value={pad(this.props.seconds)}
+          onChangeText={this.props.secondUpdate}
+        />
       </View>
     );
   }
@@ -32,6 +45,7 @@ const styles = {
   textStyle: {
     fontSize: 120,
     color: '#000',
+    flex: 1,
 
   }
 }
