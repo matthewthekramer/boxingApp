@@ -78,7 +78,7 @@ class Timer extends Component {
         <TextInput
           style={styles.textStyle}
           keyboardType={'numeric'}
-          value={this.getMinutes()}
+          value={this.getMinutes() + ''}
           onChangeText={this.props.minuteUpdate}
           onFocus={this.focusMinutes.bind(this)}
           onSubmitEditing={this.unfocusMinutes.bind(this)}
@@ -89,7 +89,7 @@ class Timer extends Component {
         <TextInput
           style={styles.textStyle}
           keyboardType={'numeric'}
-          value={this.getSeconds()}
+          value={this.getSeconds() + ''}
           onChangeText={this.props.secondUpdate}
           onFocus={this.focusSeconds.bind(this)}
           onSubmitEditing={this.unfocusSeconds.bind(this)}

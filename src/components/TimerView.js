@@ -22,14 +22,12 @@ import {
   setRest,
 } from '../actions';
 
+//home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
   constructor(props) {
     super(props);
-    this.props.initTimer({ minutes: 0, seconds: 15 });
-    //this.interval = setInterval(
-    //  () => this.setState((prevState) => ({ timer: prevState.timer - 1 })),
-    //  1000
-    //);
+    this.props.initTimer({ minutes: 3, seconds: 0 });
+    this.props.setRest({ minutes: 0, seconds: 30 });
   }
   onStartPress() {
     this.props.startTimer();
@@ -60,6 +58,16 @@ class TimerView extends Component {
             <Text style={styles.restTitle}>
               REST TIME
             </Text>
+            <Timer
+              minutes={this.props.restTime.minutes}
+              seconds={this.props.restTime.seconds}
+              secondUpdate={(seconds) => {
+                this.props.setRest({ minutes: this.props.restTime.minutes, seconds });
+              }}
+              minuteUpdate={(minutes) => {
+                this.props.setRest({ minutes, seconds: this.props.restTime.seconds });
+              }}
+            />
           </View>
         </View>
       );
@@ -75,11 +83,21 @@ class TimerView extends Component {
           <Text style={styles.restTitle}>
             REST TIME
           </Text>
+          <Timer
+            minutes={this.props.restTime.minutes}
+            seconds={this.props.restTime.seconds}
+            secondUpdate={(seconds) => {
+              this.props.setRest({ minutes: this.props.restTime.minutes, seconds });
+            }}
+            minuteUpdate={(minutes) => {
+              this.props.setRest({ minutes, seconds: this.props.restTime.seconds });
+            }}
+          />
         </View>
       </View>
     );
   }
-
+  //renders start/pause button of the timer depending on state of timer
   renderTimerButton() {
     if (this.props.paused) {
       return (
@@ -104,7 +122,7 @@ class TimerView extends Component {
             this.props.initTimer({ minutes: this.props.roundTime.minutes, seconds });
           }}
           minuteUpdate={(minutes) => {
-            this.props.initTimer({ minutes, seconds: this.props.roundTime.seconds }); 
+            this.props.initTimer({ minutes, seconds: this.props.roundTime.seconds });
           }}
         />
         <View style={styles.sectionStyle}>

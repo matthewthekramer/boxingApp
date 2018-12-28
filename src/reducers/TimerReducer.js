@@ -28,11 +28,12 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case DECREMENT_SEC:
+    case DECREMENT_SEC: {
       if (state.curSeconds === 0) {
+        console.log(state.curMinutes);
         //convert a minute into 60 seconds if there are minutes remaining
         if (state.curMinutes !== 0) {
-          return { ...state, curSeconds: 60, curMinutes: state.curMinutes - 1 };
+          return { ...state, curSeconds: 59, curMinutes: state.curMinutes - 1 };
         }
         //out of time
         //if the period that just ran out was a rest period
@@ -54,7 +55,7 @@ export default (state = INITIAL_STATE, action) => {
           roundCount: state.roundCount + 1,
         };
       //if we should set warning
-      } else if (!state.resting && state.curSeconds + (state.curMinutes * 60)) {
+    } else if (!state.resting && state.curSeconds + (state.curMinutes * 60) < 30) {
         return {
           ...state,
           curSeconds: state.curSeconds - 1,
@@ -63,45 +64,67 @@ export default (state = INITIAL_STATE, action) => {
       }
       //if not out of time, just decrement normally
       return { ...state, curSeconds: state.curSeconds - 1 };
-    case INIT_TIMER:
+    }
+    case INIT_TIMER: {
+      let seconds = parseInt(action.payload.seconds, 10);
+      if (isNaN(seconds)) {
+        seconds = state.curSeconds;
+      }
+      let minutes = parseInt(action.payload.minutes, 10);
+      if (isNaN(minutes)) {
+        minutes = state.curMinutes;
+      }
       return {
         ...state,
         done: false,
-        curSeconds: action.payload.seconds,
-        curMinutes: action.payload.minutes,
+        curSeconds: seconds,
+        curMinutes: minutes,
         roundCount: 1,
         initialized: true,
         roundTime: {
-          seconds: action.payload.seconds,
-          minutes: action.payload.minutes,
+          seconds,
+          minutes,
         }
       };
+    }
     //also resets the timer
-    case SET_REST:
+    case SET_REST: {
+      let seconds = parseInt(action.payload.seconds, 10);
+      if (isNaN(seconds)) {
+        seconds = state.curSeconds;
+      }
+      let minutes = parseInt(action.payload.minutes, 10);
+      if (isNaN(minutes)) {
+        minutes = state.curMinutes;
+      }
+
       return {
         ...state,
-        curSeconds: state.roundTime.seconds,
-        curMinutes: state.roundTime.minutes,
+        curSeconds: seconds,
+        curMinutes: minutes,
         resting: false,
         warning: false,
         roundCount: 1,
         initialized: true,
         restTime: {
-          seconds: action.payload.seconds,
-          minutes: action.payload.minutes,
+          seconds,
+          minutes,
         }
       };
+    }
     //sets interval id and unpauses timer
-    case PLAY_TIMER:
+    case PLAY_TIMER: {
       return {
         ...state,
         initialized: false,
         intervalID: action.payload.id,
         paused: false,
       };
-    case PAUSE_TIMER:
+    }
+    case PAUSE_TIMER: {
       clearInterval(state.intervalID);
       return { ...state, paused: true };
+    }
     default:
       return state;
   }
