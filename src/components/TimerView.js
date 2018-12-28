@@ -97,7 +97,16 @@ class TimerView extends Component {
   render() {
     return (
       <View style={this.getContainerStyle()}>
-        <Timer minutes={this.props.curMinutes} seconds={this.props.curSeconds} />
+        <Timer
+          minutes={this.props.curMinutes}
+          seconds={this.props.curSeconds}
+          secondUpdate={(seconds) => {
+            this.props.initTimer({ minutes: this.props.roundTime.minutes, seconds });
+          }}
+          minuteUpdate={(minutes) => {
+            this.props.initTimer({ minutes, seconds: this.props.roundTime.seconds }); 
+          }}
+        />
         <View style={styles.sectionStyle}>
           {this.renderTimerButton()}
         </View>
