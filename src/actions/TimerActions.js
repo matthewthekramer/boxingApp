@@ -1,9 +1,11 @@
 import {
-  INIT_TIMER,
   DECREMENT_SEC,
   PLAY_TIMER,
   PAUSE_TIMER,
-  SET_REST,
+  SET_ROUND_MINUTES,
+  SET_ROUND_SECONDS,
+  SET_REST_MINUTES,
+  SET_REST_SECONDS,
 } from './types';
 
 //if called multiple times without a pause, will speed up countdown
@@ -27,16 +29,30 @@ export const pauseTimer = () => {
   };
 };
 
-export const initTimer = ({ seconds, minutes }) => {
+export const setRoundMinutes = ({ minutes }) => {
   return {
-    type: INIT_TIMER,
-    payload: { seconds, minutes }
+    type: SET_ROUND_MINUTES,
+    payload: { minutes }
   };
 };
 
-export const setRest = ({ seconds, minutes }) => {
+export const setRoundSeconds = ({ seconds }) => {
   return {
-    type: SET_REST,
-    payload: { seconds, minutes },
+    type: SET_ROUND_SECONDS,
+    payload: { seconds }
+  };
+};
+
+export const setRestMinutes = ({ minutes }) => {
+  return {
+    type: SET_REST_MINUTES,
+    payload: { minutes }
+  };
+};
+
+export const setRestSeconds = ({ seconds }) => {
+  return {
+    type: SET_REST_SECONDS,
+    payload: { seconds }
   };
 };
