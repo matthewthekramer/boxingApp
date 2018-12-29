@@ -100,9 +100,21 @@ class TimerView extends Component {
       </TimerButton>
     );
   }
+  renderTitle() {
+    if (this.props.initialized) {
+      return 'READY!?';
+    } else if (this.props.resting) {
+      return 'REST';
+    } else {
+      return 'WORK!';
+    }
+  }
   render() {
     return (
       <View style={this.getContainerStyle()}>
+        <Text style={styles.mainTitle}>
+          {this.renderTitle()}
+        </Text>
         <Timer
           minutes={this.props.curMinutes}
           seconds={this.props.curSeconds}
@@ -154,9 +166,11 @@ const styles = {
   containerStyle: {
     flex: 1,
     backgroundColor: '#c1c1c1',
+    alignItems: 'center',
   },
-  sectionStyle: {
-    position: 'relative',
+  mainTitle: {
+    fontSize: 80,
+    color: '#000000',
   },
   startButton: {
     backgroundColor: '#00FF00',

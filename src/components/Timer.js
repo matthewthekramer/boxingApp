@@ -107,6 +107,7 @@ const styles = {
   containerStyle: {
     flexDirection: 'row',
     justifyContent: 'center',
+    borderBottomWidth: 2,
   },
   textStyle: {
     fontSize: 120,
