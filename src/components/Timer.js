@@ -50,6 +50,7 @@ class Timer extends Component {
       ...this.state,
       minutesFocused: true,
     });
+    this.props.minuteUpdate('');
   }
   //called when submit button hit while editing minutes
   unfocusMinutes() {
@@ -64,6 +65,7 @@ class Timer extends Component {
       ...this.state,
       secondsFocused: true,
     });
+    this.props.secondUpdate('');
   }
   //called when submit button hit while editing seconds
   unfocusSeconds() {

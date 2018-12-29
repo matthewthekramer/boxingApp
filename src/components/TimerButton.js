@@ -17,7 +17,7 @@ class TimerButton extends Component {
       <View style={styles.containerStyle}>
         <TouchableOpacity
           onPress={this.props.onPress}
-          style={this.getButtonStyle()}
+          style={[styles.buttonStyle, this.props.style]}
           activeOpacity={0.5}
         >
           <View>
@@ -41,18 +41,17 @@ const styles = {
     paddingTop: 15,
     paddingBottom: 15,
     marginLeft: 30,
-    marginRight: 30,
     borderRadius: 260,
     borderWidth: 1,
-    width: 260,
-    height: 260,
+    width: 220,
+    height: 220,
     justifyContent: 'center',
     alignItems: 'center',
   },
   textStyle: {
       color: '#000',
       textAlign: 'center',
-      fontSize: 50,
+      fontSize: 40,
   }
 };
 

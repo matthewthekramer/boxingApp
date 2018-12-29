@@ -6,6 +6,7 @@ import {
   SET_ROUND_SECONDS,
   SET_REST_MINUTES,
   SET_REST_SECONDS,
+  RESET_TIMER,
 } from './types';
 
 //if called multiple times without a pause, will speed up countdown
@@ -54,5 +55,11 @@ export const setRestSeconds = ({ seconds }) => {
   return {
     type: SET_REST_SECONDS,
     payload: { seconds }
+  };
+};
+
+export const resetTimer = () => {
+  return {
+    type: RESET_TIMER,
   };
 };

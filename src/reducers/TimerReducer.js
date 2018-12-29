@@ -6,11 +6,11 @@ import {
   SET_REST_MINUTES,
   PAUSE_TIMER,
   PLAY_TIMER,
-  SET_REST,
+  RESET_TIMER,
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  curSeconds: 0, //seconds remaining until the round/rest period is over
+  curSeconds: 15, //seconds remaining until the round/rest period is over
   curMinutes: 0, //minutes remaining until the round/rest period is over
   paused: true,
   resting: false, //if currently during the rest time
@@ -21,7 +21,7 @@ const INITIAL_STATE = {
 
   roundTime: {
     minutes: 0,
-    seconds: 0,
+    seconds: 15,
   },
   restTime: {
     minutes: 0,
@@ -87,6 +87,7 @@ export default (state = INITIAL_STATE, action) => {
           roundCount: 1,
           initialized: true,
           roundTime: {
+            ...state.roundTime,
             seconds: '',
           }
 
@@ -104,6 +105,7 @@ export default (state = INITIAL_STATE, action) => {
         roundCount: 1,
         initialized: true,
         roundTime: {
+          ...state.roundTime,
           seconds,
         }
       };
@@ -123,7 +125,8 @@ export default (state = INITIAL_STATE, action) => {
           roundCount: 1,
           initialized: true,
           roundTime: {
-            minutes: ''
+            ...state.roundTime,
+            minutes: '',
           }
         };
       }
@@ -139,6 +142,7 @@ export default (state = INITIAL_STATE, action) => {
         roundCount: 1,
         initialized: true,
         roundTime: {
+          ...state.roundTime,
           minutes,
         }
       };
@@ -158,6 +162,7 @@ export default (state = INITIAL_STATE, action) => {
           roundCount: 1,
           initialized: true,
           restTime: {
+            ...state.restTime,
             seconds: ''
           }
         };
@@ -175,6 +180,7 @@ export default (state = INITIAL_STATE, action) => {
         roundCount: 1,
         initialized: true,
         restTime: {
+          ...state.restTime,
           seconds,
         }
       };
@@ -194,6 +200,7 @@ export default (state = INITIAL_STATE, action) => {
           roundCount: 1,
           initialized: true,
           restTime: {
+            ...state.restTime,
             minutes: ''
           }
         };
@@ -211,6 +218,7 @@ export default (state = INITIAL_STATE, action) => {
         roundCount: 1,
         initialized: true,
         restTime: {
+          ...state.restTime,
           minutes,
         }
       };
@@ -229,6 +237,18 @@ export default (state = INITIAL_STATE, action) => {
     case PAUSE_TIMER: {
       clearInterval(state.intervalID);
       return { ...state, paused: true };
+    }
+    case RESET_TIMER: {
+      return {
+        ...state,
+        resting: false,
+        paused: true,
+        roundCount: 1,
+        curMinutes: state.roundTime.minutes,
+        curSeconds: state.roundTime.seconds,
+        warning: false,
+        initialized: true,
+      };
     }
     default:
       return state;

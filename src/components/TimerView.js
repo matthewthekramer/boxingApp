@@ -16,18 +16,19 @@ import TimerButton from './TimerButton';
 
 import {
   decrementSec,
-  initTimer,
   startTimer,
   pauseTimer,
-  setRest,
+  setRoundMinutes,
+  setRoundSeconds,
+  setRestMinutes,
+  setRestSeconds,
+  resetTimer,
 } from '../actions';
 
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
   constructor(props) {
     super(props);
-    this.props.initTimer({ minutes: 3, seconds: 0 });
-    this.props.setRest({ minutes: 0, seconds: 30 });
   }
   onStartPress() {
     this.props.startTimer();
@@ -51,63 +52,50 @@ class TimerView extends Component {
   //should render an editable rest time when timer is paused
   renderBottomView() {
     //don't display round counter, just display editable rest time
-    if (this.props.initialized) {
+    if (!this.props.initialized) {
       return (
-        <View style={styles.restRoundCountainer}>
-          <View style={styles.restContainer}>
-            <Text style={styles.restTitle}>
-              REST TIME
-            </Text>
-            <Timer
-              minutes={this.props.restTime.minutes}
-              seconds={this.props.restTime.seconds}
-              secondUpdate={(seconds) => {
-                this.props.setRest({ minutes: this.props.restTime.minutes, seconds });
-              }}
-              minuteUpdate={(minutes) => {
-                this.props.setRest({ minutes, seconds: this.props.restTime.seconds });
-              }}
-            />
-          </View>
-        </View>
-      );
-    }
-    return (
-      <View style={styles.restRoundContainer}>
         <View style={styles.roundContainer}>
           <Text style={styles.roundText}>
             ROUND {this.props.roundCount}
           </Text>
         </View>
-        <View style={styles.restContainer}>
-          <Text style={styles.restTitle}>
-            REST TIME
-          </Text>
-          <Timer
-            minutes={this.props.restTime.minutes}
-            seconds={this.props.restTime.seconds}
-            secondUpdate={(seconds) => {
-              this.props.setRest({ minutes: this.props.restTime.minutes, seconds });
-            }}
-            minuteUpdate={(minutes) => {
-              this.props.setRest({ minutes, seconds: this.props.restTime.seconds });
-            }}
-          />
-        </View>
-      </View>
-    );
+      );
+    }
   }
   //renders start/pause button of the timer depending on state of timer
   renderTimerButton() {
-    if (this.props.paused) {
+    if (this.props.paused && this.props.initialized) {
       return (
-        <TimerButton start onPress={this.onStartPress.bind(this)}>
+        <TimerButton
+          style={styles.startButton}
+          onPress={this.onStartPress.bind(this)}
+        >
           START
         </TimerButton>
       );
+    } else if (this.props.paused) {
+      return (
+      <View style={{ flexDirection: 'row' }}>
+        <TimerButton
+          style={[styles.halfTimerButton, styles.startButton]}
+          onPress={this.onStartPress.bind(this)}
+        >
+          RESUME
+        </TimerButton>
+        <TimerButton
+          style={[styles.halfTimerButton, styles.resetButton]}
+          onPress={() => this.props.resetTimer()}
+        >
+          RESET
+        </TimerButton>
+      </View>
+      );
     }
     return (
-      <TimerButton pause onPress={this.onPausePress.bind(this)}>
+      <TimerButton
+        style={styles.pauseButton}
+        onPress={this.onPausePress.bind(this)}
+      >
         PAUSE
       </TimerButton>
     );
@@ -119,10 +107,10 @@ class TimerView extends Component {
           minutes={this.props.curMinutes}
           seconds={this.props.curSeconds}
           secondUpdate={(seconds) => {
-            this.props.initTimer({ minutes: this.props.roundTime.minutes, seconds });
+            this.props.setRoundSeconds({ seconds });
           }}
           minuteUpdate={(minutes) => {
-            this.props.initTimer({ minutes, seconds: this.props.roundTime.seconds });
+            this.props.setRoundMinutes({ minutes });
           }}
         />
         <View style={styles.sectionStyle}>
@@ -167,7 +155,22 @@ const styles = {
   sectionStyle: {
     position: 'relative',
   },
-
+  startButton: {
+    backgroundColor: '#00FF00',
+  },
+  //used when on pause to display two smaller buttons
+  halfTimerButton: {
+    borderRadius: 160,
+    width: 160,
+    height: 160,
+    fontSize: 20,
+  },
+  resetButton: {
+    backgroundColor: '#0000FF',
+  },
+  pauseButton: {
+    backgroundColor: '#FF0000',
+  },
   restRoundContainer: {
     paddingTop: 20,
   },
@@ -192,8 +195,11 @@ const styles = {
 
 export default connect(mapStateToProps, {
   decrementSec,
-  initTimer,
   startTimer,
   pauseTimer,
-  setRest,
+  setRoundMinutes,
+  setRoundSeconds,
+  setRestMinutes,
+  setRestSeconds,
+  resetTimer,
 })(TimerView);
