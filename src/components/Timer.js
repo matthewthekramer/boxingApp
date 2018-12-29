@@ -84,6 +84,7 @@ class Timer extends Component {
           onChangeText={this.props.minuteUpdate}
           onFocus={this.focusMinutes.bind(this)}
           onSubmitEditing={this.unfocusMinutes.bind(this)}
+          editable={this.props.editable}
         />
         <Text style={styles.textStyle}>
           :
@@ -95,6 +96,7 @@ class Timer extends Component {
           onChangeText={this.props.secondUpdate}
           onFocus={this.focusSeconds.bind(this)}
           onSubmitEditing={this.unfocusSeconds.bind(this)}
+          editable={this.props.editable}
         />
       </View>
     );

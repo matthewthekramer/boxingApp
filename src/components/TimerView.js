@@ -112,6 +112,7 @@ class TimerView extends Component {
           minuteUpdate={(minutes) => {
             this.props.setRoundMinutes({ minutes });
           }}
+          editable={this.props.paused}
         />
         <View style={styles.sectionStyle}>
           {this.renderTimerButton()}
