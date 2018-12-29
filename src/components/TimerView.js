@@ -27,9 +27,6 @@ import {
 
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
-  constructor(props) {
-    super(props);
-  }
   onStartPress() {
     this.props.startTimer();
   }
@@ -45,6 +42,9 @@ class TimerView extends Component {
     }
     if (this.props.resting) {
       return { ...styles.containerStyle, backgroundColor: '#990000' };
+    }
+    if (this.props.warning) {
+      return { ...styles.containerStyle, backgroundColor: '#FFFF00' }
     }
     return { ...styles.containerStyle, backgroundColor: '#00FF00' };
   }
@@ -134,6 +134,7 @@ const mapStateToProps = state => {
     resting,
     initialized,
     roundCount,
+    warning,
   } = state.timer;
 
   return {
@@ -145,6 +146,7 @@ const mapStateToProps = state => {
     resting,
     initialized,
     roundCount,
+    warning,
   };
 };
 

@@ -61,7 +61,7 @@ export default (state = INITIAL_STATE, action) => {
           roundCount: state.roundCount + 1,
         };
       //if we should set warning
-    } else if (!state.resting && state.curSeconds + (state.curMinutes * 60) < 30) {
+    } else if (!state.resting && state.curSeconds + (state.curMinutes * 60) <= 30) {
         return {
           ...state,
           curSeconds: state.curSeconds - 1,
