@@ -37,10 +37,7 @@ const styles = {
     alignItems: 'center',
   },
   buttonStyle: {
-    marginTop: 10,
-    paddingTop: 15,
     paddingBottom: 15,
-    marginLeft: 30,
     borderRadius: 260,
     borderWidth: 1,
     width: 220,

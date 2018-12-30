@@ -7,6 +7,7 @@ import {
   PAUSE_TIMER,
   PLAY_TIMER,
   RESET_TIMER,
+  TOGGLE_EDITABLE,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,7 @@ const INITIAL_STATE = {
   intervalID: 0, //keeps track of interval used to decrement second
   roundCount: 1, //keeps track of number of work rounds completed
   initialized: true, //this is true when timer hasn't been started for a given round time
+  editable: false, //if user can edit the timer
 
   roundTime: {
     minutes: 0,
@@ -248,6 +250,12 @@ export default (state = INITIAL_STATE, action) => {
         curSeconds: state.roundTime.seconds,
         warning: false,
         initialized: true,
+      };
+    }
+    case TOGGLE_EDITABLE: {
+      return {
+        ...state,
+        editable: !state.editable,
       };
     }
     default:

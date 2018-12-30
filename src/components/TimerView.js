@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  Button
+  Switch,
 } from 'react-native';
 import {
   Card,
@@ -23,11 +23,15 @@ import {
   setRestMinutes,
   setRestSeconds,
   resetTimer,
+  toggleEditable,
 } from '../actions';
 
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
   onStartPress() {
+    if (this.props.editable) {
+      this.props.toggleEditable();
+    }
     this.props.startTimer();
   }
   onPausePress() {
@@ -82,6 +86,7 @@ class TimerView extends Component {
         >
           RESUME
         </TimerButton>
+        <View style={{ paddingLeft: 20 }} />
         <TimerButton
           style={[styles.halfTimerButton, styles.resetButton]}
           onPress={() => this.props.resetTimer()}
@@ -109,6 +114,36 @@ class TimerView extends Component {
       return 'WORK!';
     }
   }
+  //renders nothing if timer is counting down, otherwise renders toggle switchs to edit timer
+  renderEditSection() {
+    if (this.props.paused) {
+      if (this.props.editable) {
+        return (
+          <View style={styles.editContainer}>
+            <Text style={styles.editToggleTitle}>
+              Edit Mode
+            </Text>
+            <Switch
+              value={this.props.editable}
+              onValueChange={() => this.props.toggleEditable()}
+            />
+          </View>
+
+        );
+      }
+      return (
+        <View style={styles.editContainer}>
+          <Text style={styles.editToggleTitle}>
+            Edit Mode
+          </Text>
+          <Switch
+            value={this.props.editable}
+            onValueChange={() => this.props.toggleEditable()}
+          />
+        </View>
+      );
+    }
+  }
   render() {
     return (
       <View style={this.getContainerStyle()}>
@@ -124,14 +159,15 @@ class TimerView extends Component {
           minuteUpdate={(minutes) => {
             this.props.setRoundMinutes({ minutes });
           }}
-          editable={this.props.paused}
+          editable={this.props.editable}
         />
-        <View style={styles.sectionStyle}>
+        <View>
           {this.renderTimerButton()}
         </View>
-        <View style={styles.sectionStyle}>
+        <View>
           {this.renderBottomView()}
         </View>
+          {this.renderEditSection()}
       </View>
     );
   }
@@ -147,6 +183,7 @@ const mapStateToProps = state => {
     initialized,
     roundCount,
     warning,
+    editable,
   } = state.timer;
 
   return {
@@ -159,6 +196,7 @@ const mapStateToProps = state => {
     initialized,
     roundCount,
     warning,
+    editable,
   };
 };
 
@@ -197,17 +235,19 @@ const styles = {
   roundText: {
     fontSize: 60,
     color: '#000000',
-    borderBottomWidth: 2,
-    borderColor: '#000000',
   },
-  restContainer: {
-    alignItems: 'center',
-    paddingTop: 20,
+  editContainer: {
+    marginTop: 25,
+    paddingLeft: 20,
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '100%',
   },
-  restTitle: {
-    fontSize: 40,
-    color: '#000000',
-  },
+  editToggleTitle: {
+    fontSize: 18,
+    paddingRight: 10,
+  }
 };
 
 export default connect(mapStateToProps, {
@@ -219,4 +259,5 @@ export default connect(mapStateToProps, {
   setRestMinutes,
   setRestSeconds,
   resetTimer,
+  toggleEditable,
 })(TimerView);

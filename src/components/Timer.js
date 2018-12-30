@@ -74,42 +74,63 @@ class Timer extends Component {
       secondsFocused: false,
     });
   }
+  getContainerStyle() {
+    if (this.props.editable) {
+      return {
+        ...styles.containerStyle,
+        backgroundColor: 'rgba(255,255,255,.4)'
+      };
+    }
+    return styles.containerStyle;
+  }
   render() {
     return (
-      <View style={styles.containerStyle}>
-        <TextInput
-          style={styles.textStyle}
-          keyboardType={'numeric'}
-          value={this.getMinutes() + ''}
-          onChangeText={this.props.minuteUpdate}
-          onFocus={this.focusMinutes.bind(this)}
-          onSubmitEditing={this.unfocusMinutes.bind(this)}
-          editable={this.props.editable}
-        />
-        <Text style={styles.textStyle}>
-          :
-        </Text>
-        <TextInput
-          style={styles.textStyle}
-          keyboardType={'numeric'}
-          value={this.getSeconds() + ''}
-          onChangeText={this.props.secondUpdate}
-          onFocus={this.focusSeconds.bind(this)}
-          onSubmitEditing={this.unfocusSeconds.bind(this)}
-          editable={this.props.editable}
-        />
+      <View style={this.getContainerStyle()}>
+          <TextInput
+            style={styles.textStyle}
+            keyboardType={'numeric'}
+            value={this.getMinutes() + ''}
+            onChangeText={this.props.minuteUpdate}
+            onFocus={this.focusMinutes.bind(this)}
+            onSubmitEditing={this.unfocusMinutes.bind(this)}
+            editable={this.props.editable}
+          />
+          <Text style={styles.textStyle}>
+            :
+          </Text>
+          <TextInput
+            style={styles.textStyle}
+            keyboardType={'numeric'}
+            value={this.getSeconds() + ''}
+            onChangeText={this.props.secondUpdate}
+            onFocus={this.focusSeconds.bind(this)}
+            onSubmitEditing={this.unfocusSeconds.bind(this)}
+            editable={this.props.editable}
+          />
       </View>
     );
   }
 }
 
 const styles = {
+
   containerStyle: {
+    marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'center',
-    borderBottomWidth: 2,
+    borderRadius: 3,
+    borderWidth: 2,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 1,
   },
   textStyle: {
+    paddingTop: -40,
+    paddingBottom: -15,
     fontSize: 120,
     color: '#000',
   }
