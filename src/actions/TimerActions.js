@@ -8,6 +8,7 @@ import {
   SET_REST_SECONDS,
   RESET_TIMER,
   TOGGLE_EDITABLE,
+  TOGGLE_EDIT_TYPE,
 } from './types';
 
 //if called multiple times without a pause, will speed up countdown
@@ -68,5 +69,11 @@ export const resetTimer = () => {
 export const toggleEditable = () => {
   return {
     type: TOGGLE_EDITABLE,
+  };
+};
+
+export const toggleEditType = () => {
+  return {
+    type: TOGGLE_EDIT_TYPE,
   };
 };

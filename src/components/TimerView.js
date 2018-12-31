@@ -5,6 +5,7 @@ import {
   View,
   Text,
   Switch,
+  Button,
 } from 'react-native';
 import {
   Card,
@@ -24,10 +25,12 @@ import {
   setRestSeconds,
   resetTimer,
   toggleEditable,
+  toggleEditType,
 } from '../actions';
 
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
+  //sets editable to false and starts the timer
   onStartPress() {
     if (this.props.editable) {
       this.props.toggleEditable();
@@ -36,6 +39,12 @@ class TimerView extends Component {
   }
   onPausePress() {
     this.props.pauseTimer();
+  }
+  onResetPress() {
+    if (this.props.editable) {
+      this.props.toggleEditable();
+    }
+    this.props.resetTimer();
   }
 
   //background color should be grey if paused,
@@ -51,6 +60,50 @@ class TimerView extends Component {
       return { ...styles.containerStyle, backgroundColor: '#FFFF00' }
     }
     return { ...styles.containerStyle, backgroundColor: '#00FF00' };
+  }
+  getUpdateMinuteFunction() {
+    if (this.props.editingRound) {
+      return (minutes) => this.props.setRoundMinutes({ minutes });
+    } else {
+      return (minutes) => this.props.setRestMinutes({ minutes });
+    }
+  }
+  getUpdateSecondFunction() {
+    if (this.props.editingRound) {
+      return (seconds) => this.props.setRoundSeconds({ seconds });
+    } else {
+      return (seconds) => this.props.setRestSeconds({ seconds });
+    }
+  }
+  //returns current minutes unless editing rest timer, then shows rest minutes
+  getCurMinutes() {
+    if (this.props.editingRest) {
+      return this.props.restTime.minutes;
+    } else {
+      return this.props.curMinutes;
+    }
+  }
+  //returns current seconds unless editing rest timer, then shows rest seconds
+  getCurSeconds() {
+    if (this.props.editingRest) {
+      return this.props.restTime.seconds;
+    } else {
+      return this.props.curSeconds;
+    }
+  }
+
+  getTitleStyle() {
+    if (this.props.editable) {
+      return {
+        ...styles.mainTitle,
+        fontSize: 24,
+        color: '#474747',
+        marginTop: 27,
+        marginBottom: 27,
+        borderBottomWidth: 1,
+      }
+    }
+    return styles.mainTitle;
   }
   //should render a counter for rounds at all times except when timer hasn't been initialized
   //should render an editable rest time when timer is paused
@@ -89,7 +142,7 @@ class TimerView extends Component {
         <View style={{ paddingLeft: 20 }} />
         <TimerButton
           style={[styles.halfTimerButton, styles.resetButton]}
-          onPress={() => this.props.resetTimer()}
+          onPress={this.onResetPress.bind(this)}
         >
           RESET
         </TimerButton>
@@ -106,7 +159,11 @@ class TimerView extends Component {
     );
   }
   renderTitle() {
-    if (this.props.initialized) {
+    if (this.props.editingRound) {
+      return 'Touch Timer to Edit Round Time';
+    } else if (this.props.editingRest) {
+      return 'Touch Timer to Edit Rest Time';
+    } else if (this.props.initialized) {
       return 'READY!?';
     } else if (this.props.resting) {
       return 'REST';
@@ -114,12 +171,19 @@ class TimerView extends Component {
       return 'WORK!';
     }
   }
-  //renders nothing if timer is counting down, otherwise renders toggle switchs to edit timer
+  //renders nothing if timer is counting down, otherwise renders toggle switch to edit timer
+  //with a button to toggle editing the work/rest time
   renderEditSection() {
     if (this.props.paused) {
       if (this.props.editable) {
+        let buttonTitle = '';
+        if (this.props.editingRound) {
+          buttonTitle = 'Edit Rest Time';
+        } else {
+          buttonTitle = 'Edit Work Time';
+        }
         return (
-          <View style={styles.editContainer}>
+          <View style={styles.editToggleContainer}>
             <Text style={styles.editToggleTitle}>
               Edit Mode
             </Text>
@@ -127,12 +191,16 @@ class TimerView extends Component {
               value={this.props.editable}
               onValueChange={() => this.props.toggleEditable()}
             />
+            <Button
+              onPress={() => this.props.toggleEditType()}
+              title={buttonTitle}
+            />
           </View>
 
         );
       }
       return (
-        <View style={styles.editContainer}>
+        <View style={styles.editToggleContainer}>
           <Text style={styles.editToggleTitle}>
             Edit Mode
           </Text>
@@ -147,18 +215,14 @@ class TimerView extends Component {
   render() {
     return (
       <View style={this.getContainerStyle()}>
-        <Text style={styles.mainTitle}>
+        <Text style={this.getTitleStyle()}>
           {this.renderTitle()}
         </Text>
         <Timer
-          minutes={this.props.curMinutes}
-          seconds={this.props.curSeconds}
-          secondUpdate={(seconds) => {
-            this.props.setRoundSeconds({ seconds });
-          }}
-          minuteUpdate={(minutes) => {
-            this.props.setRoundMinutes({ minutes });
-          }}
+          minutes={this.getCurMinutes()}
+          seconds={this.getCurSeconds()}
+          secondUpdate={this.getUpdateSecondFunction()}
+          minuteUpdate={this.getUpdateMinuteFunction()}
           editable={this.props.editable}
         />
         <View>
@@ -184,6 +248,8 @@ const mapStateToProps = state => {
     roundCount,
     warning,
     editable,
+    editingRound,
+    editingRest,
   } = state.timer;
 
   return {
@@ -197,6 +263,8 @@ const mapStateToProps = state => {
     roundCount,
     warning,
     editable,
+    editingRound,
+    editingRest,
   };
 };
 
@@ -236,7 +304,7 @@ const styles = {
     fontSize: 60,
     color: '#000000',
   },
-  editContainer: {
+  editToggleContainer: {
     marginTop: 25,
     paddingLeft: 20,
     borderTopWidth: 1,
@@ -247,7 +315,7 @@ const styles = {
   editToggleTitle: {
     fontSize: 18,
     paddingRight: 10,
-  }
+  },
 };
 
 export default connect(mapStateToProps, {
@@ -260,4 +328,5 @@ export default connect(mapStateToProps, {
   setRestSeconds,
   resetTimer,
   toggleEditable,
+  toggleEditType,
 })(TimerView);

@@ -19,6 +19,7 @@ class TimerButton extends Component {
           onPress={this.props.onPress}
           style={[styles.buttonStyle, this.props.style]}
           activeOpacity={0.5}
+          disabled={this.props.disabled}
         >
           <View>
             <Text style={styles.textStyle}>

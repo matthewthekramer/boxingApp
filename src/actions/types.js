@@ -7,3 +7,4 @@ export const SET_REST_MINUTES = 'set_rest_minutes';
 export const SET_REST_SECONDS = 'set_rest_seconds';
 export const RESET_TIMER = 'reset_timer';
 export const TOGGLE_EDITABLE = 'toggle_editable';
+export const TOGGLE_EDIT_TYPE = 'toggle_edit_type';

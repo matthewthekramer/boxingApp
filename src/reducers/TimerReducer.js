@@ -8,6 +8,7 @@ import {
   PLAY_TIMER,
   RESET_TIMER,
   TOGGLE_EDITABLE,
+  TOGGLE_EDIT_TYPE,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -20,6 +21,8 @@ const INITIAL_STATE = {
   roundCount: 1, //keeps track of number of work rounds completed
   initialized: true, //this is true when timer hasn't been started for a given round time
   editable: false, //if user can edit the timer
+  editingRound: false, //if user is editing the round time
+  editingRest: false, //if user is editing the rest time
 
   roundTime: {
     minutes: 0,
@@ -252,10 +255,31 @@ export default (state = INITIAL_STATE, action) => {
         initialized: true,
       };
     }
+    /*
+     * also sets both edit types to false if toggling to false
+     * sets editingRound to true if toggling to true
+     */
     case TOGGLE_EDITABLE: {
+      if (state.editable) {
+        return {
+          ...state,
+          editable: !state.editable,
+          editingRound: false,
+          editingRest: false,
+        };
+      }
       return {
         ...state,
         editable: !state.editable,
+        editingRound: true,
+        editingRest: false,
+      };
+    }
+    case TOGGLE_EDIT_TYPE: {
+      return {
+        ...state,
+        editingRound: !state.editingRound,
+        editingRest: !state.editingRest,
       };
     }
     default:
