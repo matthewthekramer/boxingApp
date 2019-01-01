@@ -7,14 +7,13 @@ import {
   Switch,
   Button,
 } from 'react-native';
+import Sound from 'react-native-sound';
 import {
   Card,
   CardSection,
 } from './common';
 import Timer from './Timer';
 import TimerButton from './TimerButton';
-
-
 import {
   decrementSec,
   startTimer,
@@ -28,10 +27,44 @@ import {
   toggleEditType,
 } from '../actions';
 
+//mp3 file names (android must be lower case with underscore)
+const roundIndicatorFN = 'round_time.mp3';
+const warningIndicatorFN = 'warning_time.mp3';
+//initialize sounds
+Sound.setCategory('Playback');
+const roundIndicator = new Sound(roundIndicatorFN, Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the round sound', error);
+    return;
+  }
+});
+Sound.setCategory('Playback');
+const warningIndicator = new Sound(warningIndicatorFN, Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the warning sound', error);
+    return;
+  }
+});
+
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
+
+  //plays sounds on state change
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    //change from no warning to warning mode (yellow)
+    if (!prevProps.warning && this.props.warning) {
+      warningIndicator.play();
+    //change from rest->working or working->rest
+  } else if (prevProps.resting !== this.props.resting) {
+    roundIndicator.play();
+  }
+}
   //sets editable to false and starts the timer
   onStartPress() {
+    if (this.props.initialized) {
+      roundIndicator.play();
+    }
+    roundIndicator.play();
     if (this.props.editable) {
       this.props.toggleEditable();
     }
