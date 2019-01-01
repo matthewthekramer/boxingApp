@@ -1,3 +1,4 @@
+import BackgroundTimer from 'react-native-background-timer';
 import {
   DECREMENT_SEC,
   PLAY_TIMER,
@@ -15,17 +16,13 @@ import {
 //should disable usage while button is running
 export const startTimer = () => {
   return (dispatch) => {
-    const intervalID = setInterval(() => dispatch({ type: DECREMENT_SEC }), 1000);
-    dispatch({
-      type: PLAY_TIMER,
-      payload: {
-        id: intervalID
-      }
-    });
+    BackgroundTimer.runBackgroundTimer(() => dispatch({ type: DECREMENT_SEC }), 1000);
+    dispatch({ type: PLAY_TIMER });
   };
 };
 
 export const pauseTimer = () => {
+  BackgroundTimer.stopBackgroundTimer();
   return {
     type: PAUSE_TIMER,
     payload: {},

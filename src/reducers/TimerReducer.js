@@ -17,7 +17,6 @@ const INITIAL_STATE = {
   paused: true,
   resting: false, //if currently during the rest time
   warning: false, //if small time remaining during work period
-  intervalID: 0, //keeps track of interval used to decrement second
   roundCount: 1, //keeps track of number of work rounds completed
   initialized: true, //this is true when timer hasn't been started for a given round time
   editable: false, //if user can edit the timer
@@ -228,19 +227,16 @@ export default (state = INITIAL_STATE, action) => {
         }
       };
     }
-    //sets interval id and unpauses timer
-    //this should be called with a decrement timer call in a setInterval call
+    //unpauses timer
     case PLAY_TIMER: {
       return {
         ...state,
         initialized: false,
-        intervalID: action.payload.id,
         paused: false,
       };
     }
-    //pauses the timer and clears the interval that decrements seconds
+    //pauses the timer
     case PAUSE_TIMER: {
-      clearInterval(state.intervalID);
       return { ...state, paused: true };
     }
     case RESET_TIMER: {
