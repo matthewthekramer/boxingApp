@@ -92,7 +92,7 @@ class Timer extends Component {
             value={this.getMinutes() + ''}
             onChangeText={this.props.minuteUpdate}
             onFocus={this.focusMinutes.bind(this)}
-            onSubmitEditing={this.unfocusMinutes.bind(this)}
+            onBlur={this.unfocusMinutes.bind(this)}
             editable={this.props.editable}
           />
           <Text style={styles.textStyle}>
@@ -104,7 +104,7 @@ class Timer extends Component {
             value={this.getSeconds() + ''}
             onChangeText={this.props.secondUpdate}
             onFocus={this.focusSeconds.bind(this)}
-            onSubmitEditing={this.unfocusSeconds.bind(this)}
+            onBlur={this.unfocusSeconds.bind(this)}
             editable={this.props.editable}
           />
       </View>
