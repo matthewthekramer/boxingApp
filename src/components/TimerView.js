@@ -30,6 +30,7 @@ import {
 //mp3 file names (android must be lower case with underscore)
 const roundIndicatorFN = 'round_time.mp3';
 const warningIndicatorFN = 'warning_time.mp3';
+
 //initialize sounds
 Sound.setCategory('Playback');
 const roundIndicator = new Sound(roundIndicatorFN, Sound.MAIN_BUNDLE, (error) => {
@@ -55,7 +56,7 @@ class TimerView extends Component {
     if (!prevProps.warning && this.props.warning) {
       warningIndicator.play();
     //change from rest->working or working->rest
-  } else if (prevProps.resting !== this.props.resting) {
+  } else if (!this.props.initialized && prevProps.resting !== this.props.resting) {
     roundIndicator.play();
   }
 }
@@ -64,7 +65,6 @@ class TimerView extends Component {
     if (this.props.initialized) {
       roundIndicator.play();
     }
-    roundIndicator.play();
     if (this.props.editable) {
       this.props.toggleEditable();
     }
