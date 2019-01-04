@@ -33,6 +33,26 @@ const INITIAL_STATE = {
   },
 };
 
+//return value will be in the range [0 59]
+const validateSeconds = (seconds) => {
+  if (seconds > 59) {
+    return 59;
+  } else if (seconds < 0) {
+    return 0;
+  }
+  return seconds;
+};
+
+//return value will be be in the range [0 99]
+const validateMinutes = (minutes) => {
+  if (minutes > 99) {
+    return 99;
+  } else if (minutes < 0) {
+    return 0;
+  }
+  return minutes;
+};
+
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     /*
@@ -100,6 +120,8 @@ export default (state = INITIAL_STATE, action) => {
       let seconds = parseInt(action.payload.seconds, 10);
       if (isNaN(seconds)) {
         seconds = state.curSeconds;
+      } else {
+        seconds = validateSeconds(seconds);
       }
       return {
         ...state,
@@ -137,6 +159,8 @@ export default (state = INITIAL_STATE, action) => {
       let minutes = parseInt(action.payload.minutes, 10);
       if (isNaN(minutes)) {
         minutes = state.curMinutes;
+      } else {
+        minutes = validateMinutes(minutes);
       }
       return {
         ...state,
@@ -174,6 +198,8 @@ export default (state = INITIAL_STATE, action) => {
       let seconds = parseInt(action.payload.seconds, 10);
       if (isNaN(seconds)) {
         seconds = state.curSeconds;
+      } else {
+        seconds = validateSeconds(seconds);
       }
       return {
         ...state,
@@ -212,6 +238,8 @@ export default (state = INITIAL_STATE, action) => {
       let minutes = parseInt(action.payload.minutes, 10);
       if (isNaN(minutes)) {
         minutes = state.curMinutes;
+      } else {
+        minutes = validateMinutes(minutes);
       }
       return {
         ...state,
