@@ -60,9 +60,9 @@ export default (state = INITIAL_STATE, action) => {
      * if timer goes to 0, starts new rest/work period, alternatiting rest/work periods
     */
     case DECREMENT_SEC: {
-      if (state.curSeconds === 0) {
+      if (parseInt(state.curSeconds, 10) === 0 || state.curSeconds === '') {
         //convert a minute into 60 seconds if there are minutes remaining
-        if (state.curMinutes !== 0) {
+        if (parseInt(state.curMinutes, 10) !== 0 || state.curMinutes === '') {
           return { ...state, curSeconds: 59, curMinutes: state.curMinutes - 1 };
         }
         //out of time
