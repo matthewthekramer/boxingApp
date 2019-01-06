@@ -29,6 +29,8 @@
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    //payload:
+    //  combo: combo to add
     case ADD_COMBO: {
       return {
         ...state,
