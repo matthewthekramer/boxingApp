@@ -84,7 +84,7 @@ class TimerView extends Component {
   //red if resting, yellow if warning, and green if during work
   getContainerStyle() {
     if (this.props.paused) {
-      return { ...styles.containerStyle, backgroundColor: '#c1c1c1' };
+      return { ...styles.containerStyle, backgroundColor: '#eff5ff' };
     }
     if (this.props.resting) {
       return { ...styles.containerStyle, backgroundColor: '#990000' };
@@ -304,7 +304,7 @@ const mapStateToProps = state => {
 const styles = {
   containerStyle: {
     flex: 1,
-    backgroundColor: '#c1c1c1',
+    backgroundColor: '#eff5ff',
     alignItems: 'center',
   },
   mainTitle: {

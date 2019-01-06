@@ -8,3 +8,13 @@ export const SET_REST_SECONDS = 'set_rest_seconds';
 export const RESET_TIMER = 'reset_timer';
 export const TOGGLE_EDITABLE = 'toggle_editable';
 export const TOGGLE_EDIT_TYPE = 'toggle_edit_type';
+
+//combo types
+export const ADD_COMBO = 'add_combo';
+export const REMOVE_COMBO = 'remove_combo';
+export const DESELECT_COMBOS = 'deselect_combos';
+export const SELECT_COMBO = 'select_combo';
+export const DESELECT_COMBO = 'deselect_combo';
+export const NEXT_COMBO = 'next_combo';
+export const TOGGLE_RANDOM = 'toggle_random';
+export const CLEAR_CUR_COMBO = 'clear_cur_combo';
