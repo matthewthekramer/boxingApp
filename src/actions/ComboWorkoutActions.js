@@ -8,7 +8,7 @@ import {
   CLEAR_CUR_COMBO,
 } from './types';
 
-export const addTimer = (combo) => {
+export const addCombo = (combo) => {
   return (dispatch) => {
     dispatch({ type: CLEAR_CUR_COMBO });
     dispatch({ type: ADD_COMBO, payload: { combo } });
@@ -19,13 +19,6 @@ export const removeCombo = (idx) => {
   return (dispatch) => {
     dispatch({ type: CLEAR_CUR_COMBO });
     dispatch({ type: REMOVE_COMBO, payload: { idx } });
-  };
-};
-
-export const deselectCombo = (idx) => {
-  return (dispatch) => {
-    dispatch({ type: CLEAR_CUR_COMBO });
-    dispatch({ type: DESELECT_COMBO, payload: { idx } });
   };
 };
 

@@ -13,7 +13,46 @@
  } from '../actions/types';
 
  const INITIAL_STATE = {
-   combinations: [], //holds all combinations the user has saved
+   /* holds all combinations the user has saved
+    * each combo contains:
+    * name, array of of in order pairs of punches and speeds
+    */
+   combinations: [
+     {
+       name: '1-2-3',
+       punches: [
+         {
+           punch: 'front-jab',
+           speed: 5,
+         },
+         {
+           punch: 'rear-straight',
+           speed: 4,
+         },
+         {
+           punch: 'front-hook',
+           speed: 3,
+         },
+       ],
+     },
+     {
+       name: 'Double Jab Cross',
+       punches: [
+         {
+           punch: 'front-jab',
+           speed: 5,
+         },
+         {
+           punch: 'front-jab',
+           speed: 5,
+         },
+         {
+           punch: 'rear-straight',
+           speed: 3,
+         },
+       ]
+     }
+   ],
    //each element corresponds to an element in combinations, number determines order
    //element contains 0 if not selected | Example: [1, 3, 0, 2] means the user has
    //selected in order the first combo, the fourth combo, and the second combo
@@ -50,7 +89,7 @@ export default (state = INITIAL_STATE, action) => {
         selected: state.selected.fill(0),
       };
     /*
-     * selects a combination
+     * selects a combination//TODO leftoff here
      * payload:
      *  idx: index of the combination to select
      */

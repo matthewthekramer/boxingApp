@@ -1,6 +1,7 @@
 import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import TimerView from './components/TimerView';
+import ComboView from './components/ComboView';
 
 const RouterComponent = () => {
   return (
@@ -9,7 +10,7 @@ const RouterComponent = () => {
         <Scene key="main" hideNavBar>
           <Scene
             key="timer"
-            component={TimerView}
+            component={ComboView}
             initial
             hideNavBar
           />

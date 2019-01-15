@@ -266,6 +266,7 @@ class TimerView extends Component {
         </View>
           {this.renderEditSection()}
       </View>
+
     );
   }
 }
