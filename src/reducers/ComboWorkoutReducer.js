@@ -22,15 +22,15 @@
        name: '1-2-3',
        punches: [
          {
-           punch: 'front-jab',
+           name: 'front-jab',
            speed: 5,
          },
          {
-           punch: 'rear-straight',
+           name: 'rear-straight',
            speed: 4,
          },
          {
-           punch: 'front-hook',
+           name: 'front-hook',
            speed: 3,
          },
        ],
@@ -39,15 +39,15 @@
        name: 'Double Jab Cross',
        punches: [
          {
-           punch: 'front-jab',
+           name: 'front-jab',
            speed: 5,
          },
          {
-           punch: 'front-jab',
+           name: 'front-jab',
            speed: 5,
          },
          {
-           punch: 'rear-straight',
+           name: 'rear-straight',
            speed: 3,
          },
        ]
