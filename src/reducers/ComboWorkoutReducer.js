@@ -81,6 +81,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = state;
       newState.combinations.splice(action.payload.idx, 1);
       newState.selected.splice(action.payload.idx, 1);
+      console.log('new state', newState);
       return newState;
     //sets selection for all combos to 0
     } case DESELECT_COMBOS: {

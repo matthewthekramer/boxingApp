@@ -14,17 +14,18 @@ class ComboView extends Component {
     console.log('component will mount', this.props.combinations);
   }
 
-  renderItem(combo) {
-    console.log('combo', combo);
-    return <ComboPreview combo={combo} />;
+  renderItem(combo, rowID) {
+    console.log('combo', combo)
+    console.log('row', rowID);
+    return <ComboPreview idx={rowID} combo={combo} />;
   }
 
   render() {
     return (
-      <View style={{ flex: 1, }}>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={this.props.combinations}
-          renderItem={this.renderItem}
+          renderItem={({ item, index }) => this.renderItem(item, index)}
           keyExtractor={(combo) => combo.name}
         />
       </View>
