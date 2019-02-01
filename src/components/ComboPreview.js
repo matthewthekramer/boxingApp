@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, ImageBackground } from 'react-native';
+import { Text, TouchableHighlight, Image, View, Button, ImageBackground } from 'react-native';
 import Selection from './Selection.js';
 import {
   removeCombo,
@@ -10,6 +10,7 @@ import {
   CardSection
 } from './common';
 import punchNameToImg from '../util/PunchNameToImg';
+import { TRASH } from '../../assets/icons';
 
 //Provides a preview of a combination containing name, first 4 punch numbers
 //buttons to edit, delete or select
@@ -64,10 +65,12 @@ class ComboPreview extends Component {
         <View style={styles.punchesContainer}>
           {this.renderPunches()}
         </View>
-        <Button
-          title={'-'}
+        <TouchableHighlight
           onPress={this.onRemove.bind(this)}
-        />
+        >
+          <Image source={TRASH} />
+        </TouchableHighlight >
+
       </CardSection>
     );
   }
