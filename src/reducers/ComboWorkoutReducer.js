@@ -51,6 +51,23 @@
            speed: 3,
          },
        ]
+     },
+     {
+       name: '2-3-2',
+       punches: [
+         {
+           name: 'rear-straight',
+           speed: 3
+         },
+         {
+           name: 'front-hook',
+           speed: 3
+         },
+         {
+           name: 'rear-straight',
+           speed: 3
+         },
+       ]
      }
    ],
    //each element corresponds to an element in combinations, number determines order
@@ -78,11 +95,11 @@ export default (state = INITIAL_STATE, action) => {
       };
     //should only happen when nothing is selected
     } case REMOVE_COMBO: {
-      const newState = state;
-      newState.combinations.splice(action.payload.idx, 1);
-      newState.selected.splice(action.payload.idx, 1);
-      console.log('new state', newState);
-      return newState;
+      console.log('combos state', state.combinations);
+      const newCombinations = state.combinations.slice(0, action.payload.idx).concat(
+          state.combinations.slice(
+            action.payload.idx + 1, state.combinations.length));
+      return { ...state, combinations: newCombinations };
     //sets selection for all combos to 0
     } case DESELECT_COMBOS: {
       return {

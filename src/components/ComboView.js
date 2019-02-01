@@ -15,8 +15,6 @@ class ComboView extends Component {
   }
 
   renderItem(combo, rowID) {
-    console.log('combo', combo)
-    console.log('row', rowID);
     return <ComboPreview idx={rowID} combo={combo} />;
   }
 

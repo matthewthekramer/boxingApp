@@ -21,16 +21,16 @@ import punchNameToImg from '../util/PunchNameToImg';
  */
 class ComboPreview extends Component {
   onRemove() {
-    console.log('idx', this.props.idx);
     this.props.removeCombo(this.props.idx);
   }
   renderPunches() {
-    console.log(this.props.combo);
     const { punches } = this.props.combo;
     const punchesView = [];
     //displays the first 5 punches of a combo as images
+    if (punches === undefined) {
+      return;
+    }
     for (let i = 0; i < 5 && i < punches.length; ++i) {
-      console.log('punch ' + i, punches[i]);
       punchesView.push(
         <View key={i * 10} style={styles.punchContainer}>
           <ImageBackground
