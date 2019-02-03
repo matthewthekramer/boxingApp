@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, TouchableHighlight, Image, View, Button, ImageBackground } from 'react-native';
+import {
+  Text,
+  TouchableHighlight,
+  Image,
+  View,
+  Button,
+  ImageBackground
+} from 'react-native';
 import Selection from './Selection.js';
 import {
   removeCombo,
@@ -56,7 +63,7 @@ class ComboPreview extends Component {
   render() {
     const { name } = this.props.combo;
     return (
-      <CardSection >
+      <CardSection style={{ flex: 1 }}>
         <View style={styles.comboNameBox}>
           <Text style={styles.comboNameTxt}>
             {name}
@@ -65,11 +72,15 @@ class ComboPreview extends Component {
         <View style={styles.punchesContainer}>
           {this.renderPunches()}
         </View>
-        <TouchableHighlight
-          onPress={this.onRemove.bind(this)}
-        >
-          <Image source={TRASH} />
-        </TouchableHighlight >
+        <View style={styles.removeImgButtonContainer}>
+          <TouchableHighlight
+            onPress={this.onRemove.bind(this)}
+          >
+            <View style={styles.removeImgContainer}>
+              <Image style={styles.removeImg} source={TRASH} />
+            </View>
+          </TouchableHighlight >
+        </View>
 
       </CardSection>
     );
@@ -123,6 +134,17 @@ const styles = {
     fontWeight: 'bold',
   },
   punchTxtContainer: {
+  },
+  removeImgButtonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  removeImgContainer: {
+  },
+  removeImg: {
+    width: 32,
+    height: 32,
   },
 };
 const mapStateToProps = state => {
