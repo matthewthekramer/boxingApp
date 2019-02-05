@@ -16,6 +16,7 @@ import {
 import {
   CardSection
 } from './common';
+import PunchImage from './PunchImage';
 import punchNameToImg from '../util/PunchNameToImg';
 import { TRASH } from '../../assets/icons';
 
@@ -41,20 +42,10 @@ class ComboPreview extends Component {
     for (let i = 0; i < 5 && i < punches.length; ++i) {
       punchesView.push(
         <View key={i * 10} style={styles.punchContainer}>
-          <ImageBackground
-            key={(i * 10) + 1}
-            source={punchNameToImg(punches[i].name)}
-            style={styles.punchImgBg}
-            imageStyle={styles.punchImg}
-          >
-            <View key={(i * 10) + 2} style={styles.imgOverlay}>
-              <View key={(i * 10) + 3} style={styles.punchTxtContainer} >
-                <Text key={(i * 10) + 4} style={styles.punchTxt}>
-                  {punches[i].name}
-                </Text>
-              </View>
-            </View>
-          </ImageBackground>
+          <PunchImage
+            subKey={(i * 10) + 1}
+            name={punches[i].name}
+          />
         </View>
       );
     }

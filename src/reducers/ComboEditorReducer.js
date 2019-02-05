@@ -9,12 +9,14 @@ import {
   COMBO_REMOVE_PUNCH,
 } from '../actions/types';
 
+import { types } from '../util/PunchNameToImg';
+
 //just contains the combo that the user is currently updating/editing
 const INITIAL_STATE = {
-  name: '',
+  name: 'test',
   punches: [
     {
-      name: 'test',
+      name: types[0],
       speed: 4,
     }
   ],

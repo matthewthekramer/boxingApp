@@ -3,7 +3,7 @@
  * name on top of it
  * props:
  *  name - name of the punch (use strings from util/PunchNameToImg)
- *  key - unique identifier for this component
+ *  subKey - unique identifier for this component
  */
 
 import React, { Component } from 'react';
@@ -18,7 +18,7 @@ class PunchImage extends Component {
  render() {
    return (
     <ImageBackground
-      key={this.props.key}
+      key={this.props.subKey}
       source={punchNameToImg(this.props.name)}
       style={styles.punchImgBg}
       imageStyle={styles.punchImg}
