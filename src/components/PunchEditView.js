@@ -11,6 +11,9 @@ import {
   Text,
 } from 'react-native';
 import PunchImage from './PunchImage';
+import {
+  setSpeed
+} from '../actions';
 
 const maxSpeed = 5;
 const minSpeed = 0;
@@ -29,6 +32,7 @@ class PunchEditView extends Component {
             step={1}
             maximumValue={maxSpeed}
             minimumValue={minSpeed}
+            onValueChange={(newSpeed) => this.props.setSpeed(newSpeed)}
           />
           <View style={styles.speedTxtContainer}>
             <Text style={styles.speedTitle}>
@@ -81,4 +85,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, {})(PunchEditView);
+export default connect(mapStateToProps, {
+  setSpeed,
+})(PunchEditView);

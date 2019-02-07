@@ -50,7 +50,7 @@ export default (state = INITIAL_STATE, action) => {
      */
     case COMBO_SET_PUNCH_NAME: {
       const newPunch = state.punches[action.payload.idx];
-      newPunch.name = action.payload.speed;
+      newPunch.name = action.payload.name;
       const newPunches = state.punches.slice();
       newPunches[action.payload.idx] = newPunch;
       return { ...state, punches: newPunches };
