@@ -11,7 +11,7 @@ import PunchEditView from './PunchEditView';
 class ComboCreator extends Component {
   renderItem(punch, idx) {
     console.log('idx', idx);
-    return <PunchEditView key={idx} punch={punch} />;
+    return <PunchEditView idx={idx} key={idx} punch={punch} />;
   }
   render() {
     console.log('punches', this.props.punches);

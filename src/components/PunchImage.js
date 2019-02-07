@@ -1,6 +1,8 @@
 /*
  * A simple component for displaying an image of a punch with the punch
  * name on top of it
+ * To adjust size, wrap this component in a view and set the width and height of
+ * the wrapping view
  * props:
  *  name - name of the punch (use strings from util/PunchNameToImg)
  *  subKey - unique identifier for this component
