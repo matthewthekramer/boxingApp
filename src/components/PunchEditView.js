@@ -11,16 +11,13 @@ import {
   Text,
 } from 'react-native';
 import PunchImage from './PunchImage';
-import {
-  setSpeed
-} from '../actions';
 
 const maxSpeed = 5;
-const minSpeed = 0;
+const minSpeed = 1;
 class PunchEditView extends Component {
   render() {
     //the state for each punch comes directly from redux store
-    const { name, speed } = this.props.punches[this.props.idx];
+    const { name, speed } = this.props.punch;
     return (
       <View style={styles.mainContainer}>
         <View style={styles.punchRow}>
@@ -32,7 +29,8 @@ class PunchEditView extends Component {
             step={1}
             maximumValue={maxSpeed}
             minimumValue={minSpeed}
-            onValueChange={(newSpeed) => this.props.setSpeed(newSpeed)}
+            value={speed}
+            onValueChange={this.props.onUpdateSpeed}
           />
           <View style={styles.speedTxtContainer}>
             <Text style={styles.speedTitle}>
@@ -64,7 +62,7 @@ const styles = {
   },
   slider: {
     width: 100,
-    transform: [{ rotate: '90deg' }],
+    transform: [{ rotate: '-90deg' }],
   },
   speedTxtContainer: {
     justifyContent: 'center',
@@ -77,14 +75,5 @@ const styles = {
   }
 };
 
-const mapStateToProps = state => {
-  const { punches } = state.comboEditor;
-  return {
-    punches
-  };
-};
 
-
-export default connect(mapStateToProps, {
-  setSpeed,
-})(PunchEditView);
+export default PunchEditView;

@@ -62,6 +62,8 @@ export default (state = INITIAL_STATE, action) => {
      *  speed: new speed for the punch
      */
     case COMBO_SET_SPEED: {
+      console.log('punches', state.punches);
+      console.log('idx payload', action.payload.idx);
       const newPunch = state.punches[action.payload.idx];
       newPunch.speed = action.payload.speed;
       const newPunches = state.punches.slice();

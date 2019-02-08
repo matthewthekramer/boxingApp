@@ -7,11 +7,20 @@ import {
   FlatList,
 } from 'react-native';
 import PunchEditView from './PunchEditView';
+import {
+  setSpeed,
+} from '../actions';
 
 class ComboCreator extends Component {
   renderItem(punch, idx) {
     console.log('idx', idx);
-    return <PunchEditView idx={idx} key={idx} punch={punch} />;
+    return (
+      <PunchEditView
+        key={idx}
+        punch={punch}
+        onUpdateSpeed={(speed) => this.props.setSpeed(speed, idx)}
+      />
+    );
   }
   render() {
     console.log('punches', this.props.punches);
@@ -31,4 +40,6 @@ const mapStateToProps = state => {
   return { punches: state.comboEditor.punches };
 };
 
-export default connect(mapStateToProps, {})(ComboCreator);
+export default connect(mapStateToProps, {
+  setSpeed,
+})(ComboCreator);

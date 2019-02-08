@@ -15,10 +15,11 @@ export const setName = (name) => {
   };
 };
 
-export const setSpeed = (speed) => {
+export const setSpeed = (speed, idx) => {
+  console.log('new speed', speed);
   return {
     type: COMBO_SET_SPEED,
-    payload: { speed },
+    payload: { speed, idx },
   };
 };
 
