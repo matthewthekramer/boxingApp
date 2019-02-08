@@ -1,8 +1,8 @@
-const FRONT_JAB = 'front-jab';
-const REAR_STRAIGHT = 'rear-straight';
-const FRONT_HOOK = 'front-hook';
-const REAR_UPPERCUT = 'rear-uppercut';
-const FRONT_UPPERCUT = 'front-uppercut';
+const FRONT_JAB = 'Front jab';
+const REAR_STRAIGHT = 'Rear straight';
+const FRONT_HOOK = 'Front hook';
+const REAR_UPPERCUT = 'Rear uppercut';
+const FRONT_UPPERCUT = 'Front uppercut';
 
 export const types = [
   FRONT_JAB,

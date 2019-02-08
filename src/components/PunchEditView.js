@@ -9,18 +9,37 @@ import {
   View,
   Slider,
   Text,
+  Picker,
 } from 'react-native';
 import PunchImage from './PunchImage';
+import { types } from '../util/PunchNameToImg';
 
 const maxSpeed = 5;
 const minSpeed = 1;
 class PunchEditView extends Component {
+  renderPickerItems() {
+    const result = [];
+    for (let i = 0; i < types.length; ++i) {
+      result.push(
+        <Picker.Item label={types[i]} value={types[i]} />
+      );
+    }
+    return result;
+  }
   render() {
     //the state for each punch comes directly from redux store
     const { name, speed } = this.props.punch;
     return (
       <View style={styles.mainContainer}>
         <View style={styles.punchRow}>
+        <Picker
+          selectedValue={name}
+          style={{ height: 50, width: 140 }}
+          onValueChange={this.props.onUpdatePunch}
+        >
+          {this.renderPickerItems()}
+        </Picker>
+
           <View style={styles.imgContainer}>
             <PunchImage name={name} />
           </View>
@@ -52,6 +71,7 @@ const styles = {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: 10,
   },
   punchRow: {
     flexDirection: 'row',

@@ -7,16 +7,21 @@ import ComboCreator from './components/ComboCreator';
 const RouterComponent = () => {
   return (
     <Router>
-      <Scene key="root" hideNavBar>
-        <Scene key="main" hideNavBar>
-          <Scene
-            key="timer"
-            component={ComboCreator}
-            initial
-            hideNavBar
-          />
+      <Scene key="root" >
+        <Scene
+          key="comboCreator"
+          title=""
+          component={ComboCreator}
+        />
+        <Scene
+          onRight={() => Actions.comboCreator()}
+          rightTitle="Add"
+          key="comboView"
+          title="Combinations"
+          component={ComboView}
+          initial
+        />
 
-        </Scene>
       </Scene>
     </Router>
 

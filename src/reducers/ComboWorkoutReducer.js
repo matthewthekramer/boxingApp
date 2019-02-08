@@ -11,6 +11,7 @@
    TOGGLE_RANDOM,
    CLEAR_CUR_COMBO,
  } from '../actions/types';
+ import { types } from '../util/PunchNameToImg';
 
  const INITIAL_STATE = {
    /* holds all combinations the user has saved
@@ -22,15 +23,15 @@
        name: '1-2-3',
        punches: [
          {
-           name: 'front-jab',
+           name: types[0],
            speed: 5,
          },
          {
-           name: 'rear-straight',
+           name: types[1],
            speed: 4,
          },
          {
-           name: 'front-hook',
+           name: types[2],
            speed: 3,
          },
        ],
@@ -39,15 +40,15 @@
        name: 'Double Jab Cross',
        punches: [
          {
-           name: 'front-jab',
+           name: types[0],
            speed: 5,
          },
          {
-           name: 'front-jab',
+           name: types[0],
            speed: 5,
          },
          {
-           name: 'rear-straight',
+           name: types[1],
            speed: 3,
          },
        ]
@@ -56,15 +57,15 @@
        name: '2-3-2',
        punches: [
          {
-           name: 'rear-straight',
+           name: types[1],
            speed: 3
          },
          {
-           name: 'front-hook',
+           name: types[2],
            speed: 3
          },
          {
-           name: 'rear-straight',
+           name: types[1],
            speed: 3
          },
        ]
