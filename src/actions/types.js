@@ -27,3 +27,4 @@ export const COMBO_SWITCH_PUNCH = 'combo_switch_punch';
 export const COMBO_SET_SPEED = 'combo_set_speed';
 export const COMBO_SET_PUNCH_NAME = 'combo_set_punch_name';
 export const COMBO_REMOVE_PUNCH = 'combo_remove_punch';
+export const COMBO_CLEAR_EDITOR = 'combo_clear_editor';

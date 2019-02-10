@@ -89,10 +89,11 @@ export default (state = INITIAL_STATE, action) => {
     //payload:
     //  combo: combo to add
     case ADD_COMBO: {
+      const newCombos = state.combinations.slice();
+      newCombos.push(action.payload.combo);
       return {
         ...state,
-        combinations: state.combinations.push(action.payload.combo),
-        selected: state.selected.push(0), //initialized as unselected
+        combinations: newCombos,
       };
     //should only happen when nothing is selected
     } case REMOVE_COMBO: {

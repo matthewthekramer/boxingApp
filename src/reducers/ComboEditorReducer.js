@@ -7,17 +7,18 @@ import {
   COMBO_SET_SPEED,
   COMBO_SET_PUNCH_NAME,
   COMBO_REMOVE_PUNCH,
+  COMBO_CLEAR_EDITOR,
 } from '../actions/types';
 
 import { types } from '../util/PunchNameToImg';
 
 //just contains the combo that the user is currently updating/editing
 const INITIAL_STATE = {
-  name: 'test',
+  name: 'New Combo',
   punches: [
     {
       name: types[0],
-      speed: 4,
+      speed: 3,
     }
   ],
 };
@@ -79,6 +80,12 @@ export default (state = INITIAL_STATE, action) => {
       const newPunches = state.punches.slice(0, action.payload.idx)
         .concat(state.punches.slice(action.payload.idx + 1, state.punches.length));
       return { ...state, punches: newPunches };
+    }
+    /*
+     * Clears editor data by setting state to initial state
+     */
+    case COMBO_CLEAR_EDITOR: {
+      return INITIAL_STATE;
     }
     default:
       return state;

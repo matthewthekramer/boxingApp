@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux';
 //action creators for the punch editor store
 import {
   COMBO_SET_NAME,
@@ -6,6 +7,8 @@ import {
   COMBO_SET_SPEED,
   COMBO_SET_PUNCH_NAME,
   COMBO_REMOVE_PUNCH,
+  ADD_COMBO,
+  COMBO_CLEAR_EDITOR,
 } from './types';
 
 export const setName = (name) => {
@@ -48,5 +51,17 @@ export const removePunch = (idx) => {
   return {
     type: COMBO_REMOVE_PUNCH,
     payload: { idx },
+  };
+};
+
+/*
+ * Saves the current combo to the current list of combos, clears the editor
+ * data and then routes back to the combo list
+ */
+export const saveCombo = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: ADD_COMBO, payload: { combo: getState().comboEditor } });
+    dispatch({ type: COMBO_CLEAR_EDITOR });
+    Actions.pop();
   };
 };

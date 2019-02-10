@@ -21,13 +21,6 @@ const defaultPunch = {
   speed: 3,
 };
 class ComboCreator extends Component {
-  constructor(props) {
-    super(props);
-    Actions.refresh({ title: this.props.comboName });//LEFTOFF WITH THIS
-  }
-  componentWillMount() {
-
-  }
   renderItem(punch, idx) {
     console.log('idx', idx);
     return (
@@ -40,13 +33,12 @@ class ComboCreator extends Component {
     );
   }
   render() {
-    console.log('punches', this.props.punches);
     return (
       <View>
         <View style={styles.headerContainer}>
-          <Text style={styles.comboNameTxt}>{this.props.comboName}</Text>
           <Button
             style={styles.addPunchBtn}
+            color={'#F00'}
             title={'Add Punch'}
             onPress={() => this.props.addPunch(Object.assign({}, defaultPunch))}
           />
@@ -62,9 +54,8 @@ class ComboCreator extends Component {
 const styles = {
   headerContainer: {
     paddingTop: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingRight: 40,
+    paddingLeft: 40,
   },
   comboNameTxt: {
     paddingLeft: 10,
@@ -72,9 +63,7 @@ const styles = {
   },
   addPunchBtn: {
     paddingRight: 100,
-    width: 100,
     height: 30,
-
   },
 };
 const mapStateToProps = state => {
