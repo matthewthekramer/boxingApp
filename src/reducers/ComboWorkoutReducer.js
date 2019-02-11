@@ -10,6 +10,7 @@
    NEXT_COMBO,
    TOGGLE_RANDOM,
    CLEAR_CUR_COMBO,
+   UPDATE_COMBO,
  } from '../actions/types';
  import { types } from '../util/PunchNameToImg';
 
@@ -96,6 +97,13 @@ export default (state = INITIAL_STATE, action) => {
         combinations: newCombos,
       };
     //should only happen when nothing is selected
+    } case UPDATE_COMBO: {
+      const newCombinations = state.combinations.slice();
+      newCombinations[action.payload.idx] = action.payload.combo;
+      return {
+        ...state,
+        combinations: newCombinations,
+      };
     } case REMOVE_COMBO: {
       console.log('combos state', state.combinations);
       const newCombinations = state.combinations.slice(0, action.payload.idx).concat(

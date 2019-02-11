@@ -9,6 +9,8 @@ import {
   COMBO_REMOVE_PUNCH,
   ADD_COMBO,
   COMBO_CLEAR_EDITOR,
+  COMBO_START_EDIT,
+  UPDATE_COMBO,
 } from './types';
 
 export const setName = (name) => {
@@ -60,8 +62,30 @@ export const removePunch = (idx) => {
  */
 export const saveCombo = () => {
   return (dispatch, getState) => {
-    dispatch({ type: ADD_COMBO, payload: { combo: getState().comboEditor } });
+    if (getState().comboEditor.editing !== -1) {
+      dispatch({
+        type: UPDATE_COMBO,
+        payload: {
+          combo: getState().comboEditor.combo,
+          idx: getState().comboEditor.editing,
+        }
+      });
+    } else {
+      dispatch({
+        type: ADD_COMBO,
+        payload: {
+          combo: getState().comboEditor.combo,
+        }
+      });
+    }
     dispatch({ type: COMBO_CLEAR_EDITOR });
     Actions.pop();
+  };
+};
+
+export const startEditing = (idx, combo) => {
+  return {
+    type: COMBO_START_EDIT,
+    payload: { idx, combo },
   };
 };

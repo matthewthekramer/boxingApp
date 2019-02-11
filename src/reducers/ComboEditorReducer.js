@@ -8,19 +8,22 @@ import {
   COMBO_SET_PUNCH_NAME,
   COMBO_REMOVE_PUNCH,
   COMBO_CLEAR_EDITOR,
+  COMBO_START_EDIT,
 } from '../actions/types';
 
 import { types } from '../util/PunchNameToImg';
 
-//just contains the combo that the user is currently updating/editing
 const INITIAL_STATE = {
-  name: 'New Combo',
-  punches: [
-    {
-      name: types[0],
-      speed: 3,
-    }
-  ],
+  editing: -1, //-1 if adding a new punch, otherwise the index of the punch being edited
+  combo: {
+    name: 'New Combo',
+    punches: [
+      {
+        name: types[0],
+        speed: 3,
+      }
+    ],
+  }
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,7 +32,13 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, name: action.payload.name };
     }
     case COMBO_ADD_PUNCH: {
-      return { ...state, punches: state.punches.concat([action.payload.punch]) };
+      return {
+        ...state,
+        combo: {
+         ...state.combo,
+         punches: state.combo.punches.concat([action.payload.punch])
+       }
+     };
     }
     //  used to switch the order of two punches
     //payload:
@@ -37,11 +46,11 @@ export default (state = INITIAL_STATE, action) => {
     // idx2: 2nd index to swap
     case COMBO_SWITCH_PUNCH: {
       const { idx1, idx2 } = action.payload;
-      const newPunches = state.punches.slice();
+      const newPunches = state.combo.punches.slice();
       const tempPunch = newPunches[idx1];
       newPunches[idx1] = newPunches[idx2];
       newPunches[idx2] = tempPunch;
-      return { ...state, punches: newPunches };
+      return { ...state, combo: { ...state.combo, punches: newPunches } };
     }
     /*
      * Sets the name of a punch given the index
@@ -50,11 +59,11 @@ export default (state = INITIAL_STATE, action) => {
      *  name: new name for the punch
      */
     case COMBO_SET_PUNCH_NAME: {
-      const newPunch = state.punches[action.payload.idx];
+      const newPunch = state.combo.punches[action.payload.idx];
       newPunch.name = action.payload.name;
-      const newPunches = state.punches.slice();
+      const newPunches = state.combo.punches.slice();
       newPunches[action.payload.idx] = newPunch;
-      return { ...state, punches: newPunches };
+      return { ...state, combo: { ...state.combo, punches: newPunches } };
     }
     /*
      * sets the speed of a certain punch
@@ -63,13 +72,11 @@ export default (state = INITIAL_STATE, action) => {
      *  speed: new speed for the punch
      */
     case COMBO_SET_SPEED: {
-      console.log('punches', state.punches);
-      console.log('idx payload', action.payload.idx);
-      const newPunch = state.punches[action.payload.idx];
+      const newPunch = state.combo.punches[action.payload.idx];
       newPunch.speed = action.payload.speed;
-      const newPunches = state.punches.slice();
+      const newPunches = state.combo.punches.slice();
       newPunches[action.payload.idx] = newPunch;
-      return { ...state, punches: newPunches };
+      return { ...state, combo: { ...state.combo, punches: newPunches } };
     }
     /*
      * Removes a punch from the combination
@@ -77,15 +84,27 @@ export default (state = INITIAL_STATE, action) => {
      *  idx: index in punches of the punch to delete
      */
     case COMBO_REMOVE_PUNCH: {
-      const newPunches = state.punches.slice(0, action.payload.idx)
-        .concat(state.punches.slice(action.payload.idx + 1, state.punches.length));
-      return { ...state, punches: newPunches };
+      const newPunches = state.combo.punches.slice(0, action.payload.idx)
+        .concat(state.combo.punches.slice(action.payload.idx + 1, state.combo.punches.length));
+      return { ...state, combo: { ...state.combo, punches: newPunches } };
     }
     /*
      * Clears editor data by setting state to initial state
      */
     case COMBO_CLEAR_EDITOR: {
       return INITIAL_STATE;
+    }
+    /*
+     * marks punch[idx] as being edited
+     * payload:
+     *  idx - the index of the punch being edited
+     */
+    case COMBO_START_EDIT: {
+      return {
+        ...state,
+        editing: action.payload.idx,
+        combo: action.payload.combo,
+      };
     }
     default:
       return state;

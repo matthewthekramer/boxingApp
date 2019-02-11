@@ -69,8 +69,8 @@ const styles = {
 const mapStateToProps = state => {
   console.log('state', state);
   return {
-    punches: state.comboEditor.punches,
-    comboName: state.comboEditor.name,
+    punches: state.comboEditor.combo.punches,
+    comboName: state.comboEditor.combo.name,
   };
 };
 

@@ -19,6 +19,7 @@ export const DESELECT_COMBO = 'deselect_combo';
 export const NEXT_COMBO = 'next_combo';
 export const TOGGLE_RANDOM = 'toggle_random';
 export const CLEAR_CUR_COMBO = 'clear_cur_combo';
+export const UPDATE_COMBO = 'update_combo';
 
 //combo editor types
 export const COMBO_SET_NAME = 'combo_set_name';
@@ -28,3 +29,4 @@ export const COMBO_SET_SPEED = 'combo_set_speed';
 export const COMBO_SET_PUNCH_NAME = 'combo_set_punch_name';
 export const COMBO_REMOVE_PUNCH = 'combo_remove_punch';
 export const COMBO_CLEAR_EDITOR = 'combo_clear_editor';
+export const COMBO_START_EDIT = 'combo_start_edit';

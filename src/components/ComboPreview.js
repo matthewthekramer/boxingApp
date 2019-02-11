@@ -5,20 +5,17 @@ import {
   TouchableHighlight,
   Image,
   View,
-  Button,
-  ImageBackground
 } from 'react-native';
-import Selection from './Selection.js';
+import { Actions } from 'react-native-router-flux';
 import {
   removeCombo,
-  selectCombo,
+  startEditing,
 } from '../actions'
 import {
   CardSection
 } from './common';
 import PunchImage from './PunchImage';
-import punchNameToImg from '../util/PunchNameToImg';
-import { TRASH } from '../../assets/icons';
+import { TRASH, EDIT } from '../../assets/icons';
 
 //Provides a preview of a combination containing name, first 4 punch numbers
 //buttons to edit, delete or select
@@ -29,6 +26,10 @@ import { TRASH } from '../../assets/icons';
  *  idx - the index of this combo on the list
  */
 class ComboPreview extends Component {
+  onEdit() {
+    this.props.startEditing(this.props.idx, this.props.combo);
+    Actions.comboCreator({ title: this.props.combo.name });
+  }
   onRemove() {
     this.props.removeCombo(this.props.idx);
   }
@@ -62,6 +63,15 @@ class ComboPreview extends Component {
         </View>
         <View style={styles.punchesContainer}>
           {this.renderPunches()}
+        </View>
+        <View style={styles.removeImgButtonContainer}>
+          <TouchableHighlight
+            onPress={this.onEdit.bind(this)}
+          >
+            <View style={styles.removeImgContainer}>
+              <Image style={styles.removeImg} source={EDIT} />
+            </View>
+          </TouchableHighlight >
         </View>
         <View style={styles.removeImgButtonContainer}>
           <TouchableHighlight
@@ -144,4 +154,5 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   removeCombo,
+  startEditing,
 })(ComboPreview);
