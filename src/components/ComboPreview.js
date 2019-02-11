@@ -15,6 +15,7 @@ import {
   CardSection
 } from './common';
 import PunchImage from './PunchImage';
+import Selector from './Selector';
 import { TRASH, EDIT } from '../../assets/icons';
 
 //Provides a preview of a combination containing name, first 4 punch numbers
@@ -60,6 +61,7 @@ class ComboPreview extends Component {
           <Text style={styles.comboNameTxt}>
             {name}
           </Text>
+          <Selector />
         </View>
         <View style={styles.punchesContainer}>
           {this.renderPunches()}
@@ -101,6 +103,8 @@ const styles = {
   },
   comboNameBox: {
     width: 50,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   comboNameTxt: {
     fontWeight: 'bold',

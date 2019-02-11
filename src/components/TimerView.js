@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native';
 import Sound from 'react-native-sound';
+import { Actions } from 'react-native-router-flux';
 import {
   Card,
   CardSection,
@@ -245,6 +246,14 @@ class TimerView extends Component {
       );
     }
   }
+  renderComboSection() {
+    return (
+      <Button
+        onPress={() => Actions.comboView()}
+        title="Combo Selector"
+      />
+    );
+  }
   render() {
     return (
       <View style={this.getContainerStyle()}>
@@ -265,6 +274,7 @@ class TimerView extends Component {
           {this.renderBottomView()}
         </View>
           {this.renderEditSection()}
+          {this.renderComboSection()}
       </View>
 
     );

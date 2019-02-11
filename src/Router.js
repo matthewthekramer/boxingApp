@@ -12,11 +12,10 @@ class RouterComponent extends Component {
       <Router>
         <Scene key="root" >
           <Scene
-            key="comboCreator"
-            title={this.props.editComboName}
-            rightTitle="Save"
-            onRight={() => this.props.saveCombo()}
-            component={ComboCreator}
+            key="timer"
+            hideNavBar
+            component={TimerView}
+            initial
           />
           <Scene
             key="comboView"
@@ -24,7 +23,13 @@ class RouterComponent extends Component {
             onRight={() => Actions.comboCreator()}
             rightTitle="Add"
             component={ComboView}
-            initial
+          />
+          <Scene
+            key="comboCreator"
+            title={this.props.editComboName}
+            rightTitle="Save"
+            onRight={() => this.props.saveCombo()}
+            component={ComboCreator}
           />
 
         </Scene>
