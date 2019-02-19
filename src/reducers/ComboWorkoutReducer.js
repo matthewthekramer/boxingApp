@@ -74,7 +74,7 @@
    //each element corresponds to an element in combinations, number determines order
    //element contains 0 if not selected | Example: [1, 3, 0, 2] means the user has
    //selected in order the first combo, the fourth combo, and the second combo
-   selected: [1, 0, 0],
+   selected: [0, 0, 0],
    //used to keep track of the highest selected value (in above example would be 3)
    highestSelection: 0,
    random: false, //if combos are given in random order or selected order

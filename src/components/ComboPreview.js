@@ -28,9 +28,6 @@ import { TRASH, EDIT } from '../../assets/icons';
  *  idx - the index of this combo on the list
  */
 class ComboPreview extends Component {
-  componentWillReceiveProps(newProps) {
-    console.log('preview new props', newProps.selected);
-  }
   onEdit() {
     this.props.startEditing(this.props.idx, this.props.combo);
     Actions.comboCreator({ title: this.props.combo.name });
@@ -58,7 +55,6 @@ class ComboPreview extends Component {
     return punchesView;
   }
   render() {
-    console.log('combo preview selected', this.props.selected);
     const { name } = this.props.combo;
     return (
       <CardSection style={{ flex: 1 }}>
@@ -113,6 +109,7 @@ const styles = {
     width: 50,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   comboNameTxt: {
     fontWeight: 'bold',
