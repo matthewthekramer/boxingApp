@@ -60,7 +60,7 @@ const styles = {
     borderBottomWidth: 2,
     borderColor: '#000F0F',
     borderRadius: 10,
-    color: '#000F0',
+    color: '#000F0F',
     fontWeight: 'bold',
     backgroundColor: 'rgba(200,20,20,.2)',
   },

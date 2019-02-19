@@ -16,7 +16,7 @@ export const REMOVE_COMBO = 'remove_combo';
 export const DESELECT_COMBOS = 'deselect_combos';
 export const TOGGLE_SELECT_COMBO = 'toggle_select_combo';
 export const NEXT_COMBO = 'next_combo';
-export const TOGGLE_RANDOM = 'toggle_random';
+export const TOGGLE_MODE = 'toggle_random';
 export const CLEAR_CUR_COMBO = 'clear_cur_combo';
 export const UPDATE_COMBO = 'update_combo';
 

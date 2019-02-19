@@ -3,7 +3,7 @@ import {
   REMOVE_COMBO,
   TOGGLE_SELECT_COMBO,
   NEXT_COMBO,
-  TOGGLE_RANDOM,
+  TOGGLE_MODE,
   CLEAR_CUR_COMBO,
 } from './types';
 
@@ -35,10 +35,10 @@ export const nextCombo = () => {
   };
 };
 
-export const toggleRandom = () => {
+export const toggleMode = () => {
   return (dispatch) => {
     dispatch({ type: CLEAR_CUR_COMBO });
-    dispatch({ type: TOGGLE_RANDOM });
+    dispatch({ type: TOGGLE_MODE });
   };
 };
 

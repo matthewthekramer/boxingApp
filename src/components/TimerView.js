@@ -26,7 +26,13 @@ import {
   resetTimer,
   toggleEditable,
   toggleEditType,
+  toggleMode,
 } from '../actions';
+import {
+  MODE_NONE,
+  MODE_RANDOM,
+  MODE_ORDER,
+} from '../reducers/ComboWorkoutReducer';
 
 //mp3 file names (android must be lower case with underscore)
 const roundIndicatorFN = 'round_time.mp3';
@@ -50,7 +56,6 @@ const warningIndicator = new Sound(warningIndicatorFN, Sound.MAIN_BUNDLE, (error
 
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
-
   //plays sounds on state change
   componentDidUpdate(prevProps, prevState, snapshot) {
     //change from no warning to warning mode (yellow)
@@ -79,6 +84,18 @@ class TimerView extends Component {
       this.props.toggleEditable();
     }
     this.props.resetTimer();
+  }
+  getComboModeTitle() {
+    switch (this.props.comboMode) {
+      case MODE_NONE:
+        return 'No Combos';
+      case MODE_RANDOM:
+        return 'Random Combo Order';
+      case MODE_ORDER:
+        return 'In order Combos';
+      default:
+        return 'No Combos';
+    }
   }
 
   //background color should be grey if paused,
@@ -248,10 +265,16 @@ class TimerView extends Component {
   }
   renderComboSection() {
     return (
-      <Button
-        onPress={() => Actions.comboView()}
-        title="Combo Selector"
-      />
+      <View>
+        <Button
+          onPress={() => Actions.comboView()}
+          title="Combo Selector"
+        />
+        <Button
+          onPress={() => this.props.toggleMode()}
+          title={this.getComboModeTitle()}
+        />
+      </View>
     );
   }
   render() {
@@ -309,6 +332,7 @@ const mapStateToProps = state => {
     editable,
     editingRound,
     editingRest,
+    comboMode: state.comboWorkout.mode,
   };
 };
 
@@ -373,4 +397,5 @@ export default connect(mapStateToProps, {
   resetTimer,
   toggleEditable,
   toggleEditType,
+  toggleMode,
 })(TimerView);

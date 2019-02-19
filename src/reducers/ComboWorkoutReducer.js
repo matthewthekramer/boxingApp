@@ -7,11 +7,15 @@
    DESELECT_COMBOS,
    TOGGLE_SELECT_COMBO,
    NEXT_COMBO,
-   TOGGLE_RANDOM,
+   TOGGLE_MODE,
    CLEAR_CUR_COMBO,
    UPDATE_COMBO,
  } from '../actions/types';
  import { types } from '../util/PunchNameToImg';
+
+export const MODE_NONE = 'mode_none';
+export const MODE_RANDOM = 'mode_random';
+export const MODE_ORDER = 'mode_order';
 
  const INITIAL_STATE = {
    /* holds all combinations the user has saved
@@ -77,7 +81,7 @@
    selected: [0, 0, 0],
    //used to keep track of the highest selected value (in above example would be 3)
    highestSelection: 0,
-   random: false, //if combos are given in random order or selected order
+   mode: MODE_NONE, //if combos are given in random order or selected order, or off
    curCombo: {}, //the next punch to be thrown
    curComboIdx: -1, //idx in combinations of the next punch to be thrown
    started: false, //if the workout is currently happening
@@ -129,7 +133,7 @@ export default (state = INITIAL_STATE, action) => {
      * payload:
      *  idx: index of the combination to select
      */
-   } case TOGGLE_SELECT_COMBO: {
+    } case TOGGLE_SELECT_COMBO: {
       //does nothing if selected has nothing and combinations has bad length
       if (state.selected === [] || state.combinations.length <= action.payload.idx) {
         return state;
@@ -208,11 +212,17 @@ export default (state = INITIAL_STATE, action) => {
           curComboIdx: nextComboIdx,
         };
       }
-    } case TOGGLE_RANDOM: {
-      return {
-        ...state,
-        random: !state.random,
-      };
+    } case TOGGLE_MODE: {
+      switch (state.mode) {
+        case MODE_NONE:
+          return { ...state, mode: MODE_RANDOM };
+        case MODE_RANDOM:
+          return { ...state, mode: MODE_ORDER };
+        case MODE_ORDER:
+          return { ...state, mode: MODE_NONE };
+        default:
+          return state;
+      }
     } case CLEAR_CUR_COMBO: {
       return {
         ...state,
