@@ -9,13 +9,19 @@ import {
 } from '../actions';
 
 class ComboView extends Component {
-
-  componentWillMount() {
-    console.log('component will mount', this.props.combinations);
+  componentWillReceiveProps(newProps) {
+    console.log('new props', newProps.selected);
+    this.props = newProps;
   }
-
   renderItem(combo, rowID) {
-    return <ComboPreview idx={rowID} combo={combo} />;
+    return (
+      <ComboPreview
+        key={rowID}
+        idx={rowID}
+        combo={combo}
+        selected={this.props.selected[rowID]}
+      />
+    );
   }
 
   render() {
@@ -25,6 +31,7 @@ class ComboView extends Component {
           data={this.props.combinations}
           renderItem={({ item, index }) => this.renderItem(item, index)}
           keyExtractor={(combo) => combo.name}
+          extraData={this.props.selected}
         />
       </View>
     );
@@ -32,8 +39,10 @@ class ComboView extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.comboWorkout.combinations);
-  return { combinations: state.comboWorkout.combinations };
+  return {
+    combinations: state.comboWorkout.combinations,
+    selected: state.comboWorkout.selected,
+  };
 };
 
 export default connect(mapStateToProps, {

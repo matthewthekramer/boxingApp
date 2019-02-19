@@ -7,14 +7,17 @@ import {
 } from 'react-native';
 
 const Selector = (props) => {
+  console.log('in selector', props.selected);
   return (
-    <View style={[styles.container, props.style]} >
-      {
-        props.selected ?
-          <View style={styles.container} />
-          : null
-      }
-    </View>
+    <TouchableHighlight onPress={props.onPress} >
+      <View style={[styles.container, props.style]} >
+        {
+          props.selected > 0 ?
+            <View style={styles.innerContainer} />
+            : null
+        }
+      </View>
+    </TouchableHighlight>
   );
 };
 const styles = {

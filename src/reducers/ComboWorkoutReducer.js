@@ -5,8 +5,7 @@
    ADD_COMBO,
    REMOVE_COMBO,
    DESELECT_COMBOS,
-   SELECT_COMBO,
-   DESELECT_COMBO,
+   TOGGLE_SELECT_COMBO,
    NEXT_COMBO,
    TOGGLE_RANDOM,
    CLEAR_CUR_COMBO,
@@ -75,7 +74,7 @@
    //each element corresponds to an element in combinations, number determines order
    //element contains 0 if not selected | Example: [1, 3, 0, 2] means the user has
    //selected in order the first combo, the fourth combo, and the second combo
-   selected: [],
+   selected: [1, 0, 0],
    //used to keep track of the highest selected value (in above example would be 3)
    highestSelection: 0,
    random: false, //if combos are given in random order or selected order
@@ -91,10 +90,13 @@ export default (state = INITIAL_STATE, action) => {
     //  combo: combo to add
     case ADD_COMBO: {
       const newCombos = state.combinations.slice();
+      const newSelected = state.selected.slice();
       newCombos.push(action.payload.combo);
+      newSelected.push(-1);
       return {
         ...state,
         combinations: newCombos,
+        selected: newSelected,
       };
     //should only happen when nothing is selected
     } case UPDATE_COMBO: {
@@ -105,11 +107,17 @@ export default (state = INITIAL_STATE, action) => {
         combinations: newCombinations,
       };
     } case REMOVE_COMBO: {
-      console.log('combos state', state.combinations);
       const newCombinations = state.combinations.slice(0, action.payload.idx).concat(
           state.combinations.slice(
             action.payload.idx + 1, state.combinations.length));
-      return { ...state, combinations: newCombinations };
+      const newSelected = state.selected.slice(0, action.payload.idx).concat(
+          state.selected.slice(
+            action.payload.idx + 1, state.selected.length));
+      return {
+        ...state,
+        combinations: newCombinations,
+        selected: newSelected,
+      };
     //sets selection for all combos to 0
     } case DESELECT_COMBOS: {
       return {
@@ -117,41 +125,44 @@ export default (state = INITIAL_STATE, action) => {
         selected: state.selected.fill(0),
       };
     /*
-     * selects a combination//TODO leftoff here
+     * Either selects or deselects a combo keeping the order of selection in mind
      * payload:
      *  idx: index of the combination to select
      */
-    } case SELECT_COMBO: {
-      const newState = state;
-      newState.selected[action.payload.idx] = ++newState.highestSelection;
-      return {
-        ...newState,
-        selected: state.selected,
-      };
-    /*
-     * payload:
-     * idx: index of the combination to deselect
-     */
-    } case DESELECT_COMBO: {
+   } case TOGGLE_SELECT_COMBO: {
       //does nothing if selected has nothing and combinations has bad length
       if (state.selected === [] || state.combinations.length <= action.payload.idx) {
         return state;
       }
-      const newSelected = state.selected;
-      const selectionThreshold = newSelected[action.payload.idx];
-      //first past finds the combo and removes it
-      //decrements all selections with a higher selection than unselected index
-      for (let i = 0; i < newSelected.length; ++i) {
-        if (newSelected[i] > selectionThreshold) {
-          --newSelected[i];
+      console.log('before:', state.selected);
+      const newSelected = state.selected.slice();
+      //if selected, deselect it
+      if (newSelected[action.payload.idx] > 0) {
+        const selectionThreshold = newSelected[action.payload.idx];
+        //first past finds the combo and removes it
+        //decrements all selections with a higher selection than unselected index
+        for (let i = 0; i < newSelected.length; ++i) {
+          if (newSelected[i] > selectionThreshold) {
+            --newSelected[i];
+          }
         }
+        //deselect the requested index
+        newSelected[action.payload.idx] = 0;
+        console.log('deselecting', newSelected);
+        return {
+          ...state,
+          selected: newSelected,
+          highestSelection: state.highestSelection - 1,
+        };
+      } else {
+        newSelected[action.payload.idx] = state.highestSelection + 1;
+        console.log('selecting', newSelected);
+        return {
+          ...state,
+          selected: newSelected,
+          highestSelection: state.highestSelection + 1,
+        };
       }
-      //deselect the requested index
-      newSelected[action.payload.idx] = 0;
-      return {
-        ...state,
-        selected: newSelected,
-      };
     /* if random, sets next combo to a random one
      * if not, sets the next combo to the next in order combo
      * workout must be started to be able to call this
@@ -179,7 +190,7 @@ export default (state = INITIAL_STATE, action) => {
         }
         return {
           ...state,
-          curCombo: state.combinations[firstIdx],
+          curCombo: Object.assign({}, state.combinations[firstIdx]),
           curComboIdx: firstIdx,
         };
       } else {
@@ -193,7 +204,7 @@ export default (state = INITIAL_STATE, action) => {
         }
         return {
           ...state,
-          curCombo: state.combinations[nextComboIdx],
+          curCombo: Object.assign({}, state.combinations[nextComboIdx]),
           curComboIdx: nextComboIdx,
         };
       }

@@ -1,8 +1,7 @@
 import {
   ADD_COMBO,
   REMOVE_COMBO,
-  DESELECT_COMBO,
-  SELECT_COMBO,
+  TOGGLE_SELECT_COMBO,
   NEXT_COMBO,
   TOGGLE_RANDOM,
   CLEAR_CUR_COMBO,
@@ -22,10 +21,10 @@ export const removeCombo = (idx) => {
   };
 };
 
-export const selectCombo = (idx) => {
+export const toggleSelectCombo = (idx) => {
   return (dispatch) => {
     dispatch({ type: CLEAR_CUR_COMBO });
-    dispatch({ type: SELECT_COMBO, payload: { idx } });
+    dispatch({ type: TOGGLE_SELECT_COMBO, payload: { idx } });
   };
 };
 

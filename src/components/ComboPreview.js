@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 import {
   removeCombo,
   startEditing,
+  toggleSelectCombo,
 } from '../actions'
 import {
   CardSection
@@ -27,6 +28,9 @@ import { TRASH, EDIT } from '../../assets/icons';
  *  idx - the index of this combo on the list
  */
 class ComboPreview extends Component {
+  componentWillReceiveProps(newProps) {
+    console.log('preview new props', newProps.selected);
+  }
   onEdit() {
     this.props.startEditing(this.props.idx, this.props.combo);
     Actions.comboCreator({ title: this.props.combo.name });
@@ -54,6 +58,7 @@ class ComboPreview extends Component {
     return punchesView;
   }
   render() {
+    console.log('combo preview selected', this.props.selected);
     const { name } = this.props.combo;
     return (
       <CardSection style={{ flex: 1 }}>
@@ -61,7 +66,10 @@ class ComboPreview extends Component {
           <Text style={styles.comboNameTxt}>
             {name}
           </Text>
-          <Selector />
+          <Selector
+            onPress={() => this.props.toggleSelectCombo(this.props.idx)}
+            selected={this.props.selected}
+          />
         </View>
         <View style={styles.punchesContainer}>
           {this.renderPunches()}
@@ -159,4 +167,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   removeCombo,
   startEditing,
+  toggleSelectCombo,
 })(ComboPreview);
