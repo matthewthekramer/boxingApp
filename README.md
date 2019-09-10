@@ -20,3 +20,11 @@ Redux is used for state management.
 2. Launch an Android virtual device with API 26 or later from Android Studio
 3. In the root directory, run `npm run android-build`
 4. This command commonly fails, and running it again usually results in it working
+
+## Screenshots
+## Work Timer State
+![Screenshot of work timer state](https://i.imgur.com/GNQ7lYH.png)
+## Pause Timer State
+![Screenshot of work timer state](https://i.imgur.com/KQz6iLK.png)
+### Combo Editor
+![Screenshot of combo editor](https://i.imgur.com/OLaUbuI.png)
