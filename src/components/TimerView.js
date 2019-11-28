@@ -6,13 +6,10 @@ import {
   Text,
   Switch,
   Button,
+  Picker,
 } from 'react-native';
 import Sound from 'react-native-sound';
 import { Actions } from 'react-native-router-flux';
-import {
-  Card,
-  CardSection,
-} from './common';
 import Timer from './Timer';
 import TimerButton from './TimerButton';
 import {
@@ -54,10 +51,34 @@ const warningIndicator = new Sound(warningIndicatorFN, Sound.MAIN_BUNDLE, (error
   }
 });
 
+//the different states of a round
+const roundTypes = {
+  WORK: 'work',
+  WARNING: 'warning',
+  REST: 'rest',
+};
+
+//The different states this whole view can be in
+const timerStatuses = {
+  ...roundTypes,
+  PAUSED: 'paused',
+  INITIALIZED: 'initialized,'
+};
+//The different states that can be edited
+const editTypes = {
+  ...roundTypes,
+  //If nothing is currently being edited
+  NONE: 'none',
+};
+
 //home page of the app, is a basic round-based work-out timer
 class TimerView extends Component {
+  state = {
+    selectedEditType: editTypes.NONE,
+
+  }
   //plays sounds on state change
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     //change from no warning to warning mode (yellow)
     if (!prevProps.warning && this.props.warning) {
       warningIndicator.play();
@@ -222,36 +243,18 @@ class TimerView extends Component {
       return 'WORK!';
     }
   }
-  //renders nothing if timer is counting down, otherwise renders toggle switch to edit timer
-  //with a button to toggle editing the work/rest time
+  //renders toggle switch to toggle editing the work/rest time
   renderEditSection() {
-    if (this.props.paused) {
-      if (this.props.editable) {
-        let buttonTitle = '';
-        if (this.props.editingRound) {
-          buttonTitle = 'Edit Rest Time';
-        } else {
-          buttonTitle = 'Edit Work Time';
-        }
-        return (
-          <View style={styles.editToggleContainer}>
-            <Text style={styles.editToggleTitle}>
-              Edit Mode
-            </Text>
-            <Switch
-              value={this.props.editable}
-              onValueChange={() => this.props.toggleEditable()}
-            />
-            <Button
-              onPress={() => this.props.toggleEditType()}
-              title={buttonTitle}
-            />
-          </View>
-
-        );
+    if (this.props.editable) {
+      let buttonTitle = '';
+      if (this.props.editingRound) {
+        buttonTitle = 'Edit Rest Time';
+      } else {
+        buttonTitle = 'Edit Work Time';
       }
       return (
         <View style={styles.editToggleContainer}>
+
           <Text style={styles.editToggleTitle}>
             Edit Mode
           </Text>
@@ -259,10 +262,16 @@ class TimerView extends Component {
             value={this.props.editable}
             onValueChange={() => this.props.toggleEditable()}
           />
+          <Button
+            onPress={() => this.props.toggleEditType()}
+            title={buttonTitle}
+          />
         </View>
+
       );
     }
   }
+
   renderComboSection() {
     return (
       <View>
@@ -280,14 +289,27 @@ class TimerView extends Component {
   render() {
     return (
       <View style={this.getContainerStyle()}>
-        <Text style={this.getTitleStyle()}>
-          {this.renderTitle()}
-        </Text>
+        {this.props.isEditing ?
+          <Picker
+            value={this.state.selectedEditType}
+            onValueChange={itemValue => this.setState({ selectedEditType: itemValue })}
+          >
+            <Picker.Item label="Work" value="work" />
+            <Picker.Item label="Warning" value="warning" />
+            <Picker.Item label="Rest" value="rest" />
+          </Picker>
+          :
+          <Text style={this.getTitleStyle()}>
+            {this.renderTitle()}
+          </Text>
+        }
         <Timer
           minutes={this.getCurMinutes()}
           seconds={this.getCurSeconds()}
+          //TODO change name to onUpdateSeconds
           secondUpdate={this.getUpdateSecondFunction()}
           minuteUpdate={this.getUpdateMinuteFunction()}
+          onEdit={() => this.setState({ selectedEditType: editTypes.WORK })}
           editable={this.props.editable}
         />
         <View>
