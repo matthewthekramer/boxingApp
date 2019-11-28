@@ -52,7 +52,7 @@ class Timer extends Component {
       minutesFocused: true,
     });
     this.props.onEdit();
-    this.props.minuteUpdate('');
+    this.props.onUpdateMinutes('');
   }
   //called when submit button hit while editing minutes
   unfocusMinutes() {
@@ -68,7 +68,7 @@ class Timer extends Component {
       secondsFocused: true,
     });
     this.props.onEdit();
-    this.props.secondUpdate('');
+    this.props.onUpdateSeconds('');
   }
   //called when submit button hit while editing seconds
   unfocusSeconds() {
@@ -93,7 +93,7 @@ class Timer extends Component {
             style={styles.textStyle}
             keyboardType={'numeric'}
             value={this.getMinutes() + ''}
-            onChangeText={this.props.minuteUpdate}
+            onChangeText={this.props.onUpdateMinutes}
             onFocus={this.focusMinutes.bind(this)}
             onBlur={this.unfocusMinutes.bind(this)}
             editable={this.props.editable}
@@ -105,7 +105,7 @@ class Timer extends Component {
             style={styles.textStyle}
             keyboardType={'numeric'}
             value={this.getSeconds() + ''}
-            onChangeText={this.props.secondUpdate}
+            onChangeText={this.props.onUpdateSeconds}
             onFocus={this.focusSeconds.bind(this)}
             onBlur={this.unfocusSeconds.bind(this)}
             editable={this.props.editable}
@@ -141,6 +141,8 @@ const styles = {
 
 Timer.propTypes = {
   onEdit: PropTypes.func,
+  onUpdateMinutes: PropTypes.func,
+  onUpdateSeconds: PropTypes.func,
 };
 
 export default Timer;

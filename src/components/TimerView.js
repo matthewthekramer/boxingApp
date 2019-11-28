@@ -307,8 +307,8 @@ class TimerView extends Component {
           minutes={this.getCurMinutes()}
           seconds={this.getCurSeconds()}
           //TODO change name to onUpdateSeconds
-          secondUpdate={this.getUpdateSecondFunction()}
-          minuteUpdate={this.getUpdateMinuteFunction()}
+          onUpdateSeconds={this.getUpdateSecondFunction()}
+          onUpdateMinutes={this.getUpdateMinuteFunction()}
           onEdit={() => this.setState({ selectedEditType: editTypes.WORK })}
           editable={this.props.editable}
         />
