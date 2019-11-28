@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -50,6 +51,7 @@ class Timer extends Component {
       ...this.state,
       minutesFocused: true,
     });
+    this.props.onEdit();
     this.props.minuteUpdate('');
   }
   //called when submit button hit while editing minutes
@@ -65,6 +67,7 @@ class Timer extends Component {
       ...this.state,
       secondsFocused: true,
     });
+    this.props.onEdit();
     this.props.secondUpdate('');
   }
   //called when submit button hit while editing seconds
@@ -134,6 +137,10 @@ const styles = {
     fontSize: 120,
     color: '#000',
   }
+};
+
+Timer.propTypes = {
+  onEdit: PropTypes.func,
 };
 
 export default Timer;
