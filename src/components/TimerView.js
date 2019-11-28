@@ -39,7 +39,7 @@ const roundIndicatorFN = 'round_time.mp3';
 const warningIndicatorFN = 'warning_time.mp3';
 
 //initialize sounds
-Sound.setCategory('Ambient', true);
+Sound.setCategory('Playback', true);
 const roundIndicator = new Sound(roundIndicatorFN, Sound.MAIN_BUNDLE, (error) => {
   if (error) {
     console.log('failed to load the round sound', error);
