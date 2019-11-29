@@ -324,10 +324,13 @@ class TimerView extends Component {
             {statusesToTitles[this.state.status]}
           </Text>
           :
-          <Fragment>
-            <Text> Editing: </Text>
+          <View style={styles.editTypeContainer}>
+            <Text style={styles.editLabel}> Editing: </Text>
             <Picker
-              value={this.state.selectedEditType}
+              mode='dropdown'
+              style={styles.editPicker}
+              itemStyle={styles.editItem}
+              selectedValue={this.state.selectedEditType}
               onValueChange={itemValue =>
                   this.setState({ selectedEditType: itemValue })}
             >
@@ -335,7 +338,7 @@ class TimerView extends Component {
               <Picker.Item label="Warning" value="warning" />
               <Picker.Item label="Rest" value="rest" />
             </Picker>
-          </Fragment>
+          </View>
         }
         <Timer
           minutes={this.getDisplayTime('minutes')}
@@ -453,6 +456,21 @@ const styles = {
   mainTitle: {
     fontSize: 80,
     color: '#000000',
+  },
+  editTypeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editLabel: {
+    fontSize: 30,
+  },
+  editPicker: {
+    height: 30,
+    width: 125,
+  },
+  editItem: {
+    fontSize: 30,
   },
   startButton: {
     backgroundColor: '#00FF00',
