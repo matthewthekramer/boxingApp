@@ -1,10 +1,8 @@
 
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   View,
   Text,
-  Switch,
   Button,
   Picker,
 } from 'react-native';
@@ -13,19 +11,6 @@ import { Actions } from 'react-native-router-flux';
 import BackgroundTimer from 'react-native-background-timer';
 import Timer from './Timer';
 import TimerButton from './TimerButton';
-import {
-  decrementSec,
-  startTimer,
-  pauseTimer,
-  setRoundMinutes,
-  setRoundSeconds,
-  setRestMinutes,
-  setRestSeconds,
-  resetTimer,
-  toggleEditable,
-  toggleEditType,
-  toggleMode,
-} from '../actions';
 import {
   MODE_NONE,
   MODE_RANDOM,
@@ -334,9 +319,9 @@ class TimerView extends Component {
               onValueChange={itemValue =>
                   this.setState({ selectedEditType: itemValue })}
             >
-              <Picker.Item label="Work" value="work" />
-              <Picker.Item label="Warning" value="warning" />
-              <Picker.Item label="Rest" value="rest" />
+              <Picker.Item label="Work" value={roundTypes.WORK} />
+              <Picker.Item label="Warning" value={roundTypes.WARNING} />
+              <Picker.Item label="Rest" value={roundTypes.REST} />
             </Picker>
           </View>
         }
@@ -345,7 +330,11 @@ class TimerView extends Component {
           seconds={this.getDisplayTime('seconds')}
           onUpdateSeconds={seconds => this.setTime('seconds', seconds)}
           onUpdateMinutes={minutes => this.setTime('minutes', minutes)}
-          onEdit={() => this.setState({ selectedEditType: editTypes.WORK })}
+          onEdit={() => this.setState({
+            selectedEditType: this.state.selectedEditType === editTypes.NONE
+              ? editTypes.WORK
+              : this.state.selectedEditType
+          })}
           isEditable={this.state.status === timerStatuses.INITIALIZED}
         />
         <View>
@@ -416,36 +405,6 @@ class TimerView extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  const {
-    curMinutes,
-    curSeconds,
-    paused,
-    roundTime,
-    restTime,
-    resting,
-    initialized,
-    roundCount,
-    warning,
-    editingRound,
-    editingRest,
-  } = state.timer;
-
-  return {
-    curMinutes,
-    curSeconds,
-    paused,
-    roundTime,
-    restTime,
-    resting,
-    initialized,
-    roundCount,
-    warning,
-    editingRound,
-    editingRest,
-    comboMode: state.comboWorkout.mode,
-  };
-};
 
 const styles = {
   containerStyle: {
@@ -461,9 +420,10 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 10,
   },
   editLabel: {
-    fontSize: 30,
+    fontSize: 22,
   },
   editPicker: {
     height: 30,
@@ -512,16 +472,4 @@ const styles = {
   },
 };
 
-export default connect(mapStateToProps, {
-  decrementSec,
-  startTimer,
-  pauseTimer,
-  setRoundMinutes,
-  setRoundSeconds,
-  setRestMinutes,
-  setRestSeconds,
-  resetTimer,
-  toggleEditable,
-  toggleEditType,
-  toggleMode,
-})(TimerView);
+export default TimerView;

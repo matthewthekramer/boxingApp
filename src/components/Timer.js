@@ -47,7 +47,6 @@ class Timer extends Component {
   }
   //called when minutes is clicked on
   focusMinutes() {
-    console.log('focus minutes')
     this.setState({
       ...this.state,
       minutesFocused: true,
