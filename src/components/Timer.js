@@ -33,7 +33,7 @@ class Timer extends Component {
   getMinutes() {
     //currently being edited so don't pad
     if (this.state.minutesFocused) {
-      return this.props.minutes;
+      return this.props.minutes === 0 ? '' : this.props.minutes;
     }
     return pad(this.props.minutes, 2);
   }
@@ -41,18 +41,19 @@ class Timer extends Component {
   getSeconds() {
     //currently being edited so don't pad
     if (this.state.secondsFocused) {
-      return this.props.seconds;
+      return this.props.seconds === 0 ? '' : this.props.seconds;
     }
     return pad(this.props.seconds, 2);
   }
   //called when minutes is clicked on
   focusMinutes() {
+    console.log('focus minutes')
     this.setState({
       ...this.state,
       minutesFocused: true,
     });
     this.props.onEdit();
-    this.props.onUpdateMinutes('');
+    this.props.onUpdateMinutes(0);
   }
   //called when submit button hit while editing minutes
   unfocusMinutes() {
@@ -68,7 +69,7 @@ class Timer extends Component {
       secondsFocused: true,
     });
     this.props.onEdit();
-    this.props.onUpdateSeconds('');
+    this.props.onUpdateSeconds(0);
   }
   //called when submit button hit while editing seconds
   unfocusSeconds() {
@@ -92,8 +93,9 @@ class Timer extends Component {
           <TextInput
             style={styles.textStyle}
             keyboardType={'numeric'}
-            value={this.getMinutes() + ''}
+            value={`${this.getMinutes()}`}
             onChangeText={this.props.onUpdateMinutes}
+            clearTextOnFocus
             onFocus={this.focusMinutes.bind(this)}
             onBlur={this.unfocusMinutes.bind(this)}
             editable={this.props.isEditable}
@@ -104,8 +106,9 @@ class Timer extends Component {
           <TextInput
             style={styles.textStyle}
             keyboardType={'numeric'}
-            value={this.getSeconds() + ''}
+            value={`${this.getSeconds()}`}
             onChangeText={this.props.onUpdateSeconds}
+            clearTextOnFocus
             onFocus={this.focusSeconds.bind(this)}
             onBlur={this.unfocusSeconds.bind(this)}
             editable={this.props.isEditable}
