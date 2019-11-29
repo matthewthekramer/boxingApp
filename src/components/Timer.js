@@ -96,7 +96,7 @@ class Timer extends Component {
             onChangeText={this.props.onUpdateMinutes}
             onFocus={this.focusMinutes.bind(this)}
             onBlur={this.unfocusMinutes.bind(this)}
-            editable={this.props.editable}
+            editable={this.props.isEditable}
           />
           <Text style={styles.textStyle}>
             :
@@ -108,7 +108,7 @@ class Timer extends Component {
             onChangeText={this.props.onUpdateSeconds}
             onFocus={this.focusSeconds.bind(this)}
             onBlur={this.unfocusSeconds.bind(this)}
-            editable={this.props.editable}
+            editable={this.props.isEditable}
           />
       </View>
     );
@@ -140,9 +140,13 @@ const styles = {
 };
 
 Timer.propTypes = {
+  //Call back to signify this timer is now being edited
   onEdit: PropTypes.func,
+  //Call back to update the minutes/seconds of the timer
   onUpdateMinutes: PropTypes.func,
   onUpdateSeconds: PropTypes.func,
+  //If the user is able to tap on the timer to edit it
+  isEditable: PropTypes.bool,
 };
 
 export default Timer;

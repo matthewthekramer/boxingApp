@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
@@ -51,19 +51,22 @@ const warningIndicator = new Sound(warningIndicatorFN, Sound.MAIN_BUNDLE, (error
   }
 });
 
-//the different states of a round
-const roundTypes = {
-  WORK: 'work',
-  WARNING: 'warning',
-  REST: 'rest',
-};
-
 //The different states this whole view can be in
 const timerStatuses = {
   ...roundTypes,
   PAUSED: 'paused',
   INITIALIZED: 'initialized,'
 };
+
+//Each status has a title displayed at the top of the screen
+const statusesToTitles = {
+  [timerStatuses.WORK]: "WORK",
+  [timerStatuses.WARNING]: "WORK!!!",
+  [timerStatuses.INITIALIZED]: "READY!?",
+  [timerStatuses.REST]: "REST",
+  [timerStatuses.PAUSED]: "Paused"
+};
+
 //The different states that can be edited
 const editTypes = {
   ...roundTypes,
@@ -75,8 +78,9 @@ const editTypes = {
 class TimerView extends Component {
   state = {
     selectedEditType: editTypes.NONE,
-
+    status: timerStatuses.INITIALIZED,
   }
+
   //plays sounds on state change
   componentDidUpdate(prevProps) {
     //change from no warning to warning mode (yellow)
@@ -92,18 +96,12 @@ class TimerView extends Component {
     if (this.props.initialized) {
       roundIndicator.play();
     }
-    if (this.props.editable) {
-      this.props.toggleEditable();
-    }
     this.props.startTimer();
   }
   onPausePress() {
     this.props.pauseTimer();
   }
   onResetPress() {
-    if (this.props.editable) {
-      this.props.toggleEditable();
-    }
     this.props.resetTimer();
   }
   getComboModeTitle() {
@@ -164,33 +162,65 @@ class TimerView extends Component {
     }
   }
 
-  getTitleStyle() {
-    if (this.props.editable) {
-      return {
-        ...styles.mainTitle,
-        fontSize: 24,
-        color: '#474747',
-        marginTop: 27,
-        marginBottom: 27,
-        borderBottomWidth: 1,
-      }
-    }
-    return styles.mainTitle;
-  }
-  //should render a counter for rounds at all times except when timer hasn't been initialized
-  //should render an editable rest time when timer is paused
-  renderBottomView() {
-    //don't display round counter, just display editable rest time
-    if (!this.props.initialized) {
-      return (
-        <View style={styles.roundContainer}>
-          <Text style={styles.roundText}>
-            ROUND {this.props.roundCount}
+  render() {
+    return (
+      <View style={this.getContainerStyle()}>
+        {this.props.isEditing ?
+          <Fragment>
+            <Text> Editing: </Text>
+            <Picker
+              value={this.state.selectedEditType}
+              onValueChange={itemValue => this.setState({ selectedEditType: itemValue })}
+            >
+              <Picker.Item label="Work" value="work" />
+              <Picker.Item label="Warning" value="warning" />
+              <Picker.Item label="Rest" value="rest" />
+            </Picker>
+          </Fragment>
+          :
+          <Text style={styles.mainTitle}>
+            {statusesToTitles[this.state.status]}
           </Text>
+        }
+        <Timer
+          minutes={this.getCurMinutes()}
+          seconds={this.getCurSeconds()}
+          //TODO change name to onUpdateSeconds
+          onUpdateSeconds={this.getUpdateSecondFunction()}
+          onUpdateMinutes={this.getUpdateMinuteFunction()}
+          onEdit={() => this.setState({ selectedEditType: editTypes.WORK })}
+          editable={this.state.status === timerStatuses.INITIALIZED
+                    || this.state.status === timerStatuses.PAUSED}
+        />
+        <View>
+          {this.renderTimerButton()}
         </View>
-      );
-    }
+        <View>
+          {this.state.status === timerStatuses.WORK
+            || this.state.status === timerStatuses.WARNING
+            || this.state.status === timerStatuses.REST ?
+            <View style={styles.roundContainer}>
+              <Text style={styles.roundText}>
+                ROUND {this.props.roundCount}
+              </Text>
+            </View>
+          : ''}
+          {this.renderBottomView()}
+        </View>
+        <View>
+          <Button
+            onPress={() => Actions.comboView()}
+            title="Combo Selector"
+          />
+          <Button
+            onPress={() => this.props.toggleMode()}
+            title={this.getComboModeTitle()}
+          />
+        </View>
+      </View>
+    );
   }
+
   //renders start/pause button of the timer depending on state of timer
   renderTimerButton() {
     if (this.props.paused && this.props.initialized) {
@@ -230,100 +260,6 @@ class TimerView extends Component {
       </TimerButton>
     );
   }
-  renderTitle() {
-    if (this.props.editingRound) {
-      return 'Touch Timer to Edit Round Time';
-    } else if (this.props.editingRest) {
-      return 'Touch Timer to Edit Rest Time';
-    } else if (this.props.initialized) {
-      return 'READY!?';
-    } else if (this.props.resting) {
-      return 'REST';
-    } else {
-      return 'WORK!';
-    }
-  }
-  //renders toggle switch to toggle editing the work/rest time
-  renderEditSection() {
-    if (this.props.editable) {
-      let buttonTitle = '';
-      if (this.props.editingRound) {
-        buttonTitle = 'Edit Rest Time';
-      } else {
-        buttonTitle = 'Edit Work Time';
-      }
-      return (
-        <View style={styles.editToggleContainer}>
-
-          <Text style={styles.editToggleTitle}>
-            Edit Mode
-          </Text>
-          <Switch
-            value={this.props.editable}
-            onValueChange={() => this.props.toggleEditable()}
-          />
-          <Button
-            onPress={() => this.props.toggleEditType()}
-            title={buttonTitle}
-          />
-        </View>
-
-      );
-    }
-  }
-
-  renderComboSection() {
-    return (
-      <View>
-        <Button
-          onPress={() => Actions.comboView()}
-          title="Combo Selector"
-        />
-        <Button
-          onPress={() => this.props.toggleMode()}
-          title={this.getComboModeTitle()}
-        />
-      </View>
-    );
-  }
-  render() {
-    return (
-      <View style={this.getContainerStyle()}>
-        {this.props.isEditing ?
-          <Picker
-            value={this.state.selectedEditType}
-            onValueChange={itemValue => this.setState({ selectedEditType: itemValue })}
-          >
-            <Picker.Item label="Work" value="work" />
-            <Picker.Item label="Warning" value="warning" />
-            <Picker.Item label="Rest" value="rest" />
-          </Picker>
-          :
-          <Text style={this.getTitleStyle()}>
-            {this.renderTitle()}
-          </Text>
-        }
-        <Timer
-          minutes={this.getCurMinutes()}
-          seconds={this.getCurSeconds()}
-          //TODO change name to onUpdateSeconds
-          onUpdateSeconds={this.getUpdateSecondFunction()}
-          onUpdateMinutes={this.getUpdateMinuteFunction()}
-          onEdit={() => this.setState({ selectedEditType: editTypes.WORK })}
-          editable={this.props.editable}
-        />
-        <View>
-          {this.renderTimerButton()}
-        </View>
-        <View>
-          {this.renderBottomView()}
-        </View>
-          {this.renderEditSection()}
-          {this.renderComboSection()}
-      </View>
-
-    );
-  }
 }
 const mapStateToProps = state => {
   const {
@@ -336,7 +272,6 @@ const mapStateToProps = state => {
     initialized,
     roundCount,
     warning,
-    editable,
     editingRound,
     editingRest,
   } = state.timer;
@@ -351,7 +286,6 @@ const mapStateToProps = state => {
     initialized,
     roundCount,
     warning,
-    editable,
     editingRound,
     editingRest,
     comboMode: state.comboWorkout.mode,
